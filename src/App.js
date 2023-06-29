@@ -1,12 +1,13 @@
-import './App.css';
+import React from 'react';
+import Header from './components/Header';
 import Home from './pages/Home';
 
-function App() {
+export default function App() {
   return (
-    <div>
-      <Home></Home>
-    </div>
+
+    <>
+      <Header />
+      <Home />
+    </>
   );
 }
-
-export default App;

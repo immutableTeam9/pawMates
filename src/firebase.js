@@ -1,9 +1,15 @@
-// firebase.js
-
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile
+} from 'firebase/auth';
+import { addDoc, collection, getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,5 +25,41 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+export async function firebaseSignUp(email, pwd, nickName, petInfo) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, pwd);
+    await updateProfile(auth.currentUser, { displayName: nickName });
+    await savePetInfo(petInfo, userCredential.user.uid);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function savePetInfo(petInfo, uid) {
+  const petData = { ...petInfo, ownerId: uid };
+  const collectionRef = collection(db, 'petInfo');
+  await addDoc(collectionRef, petData);
+}
+
+export async function firebaseSignIn(email, pwd) {
+  try {
+    return await signInWithEmailAndPassword(auth, email, pwd);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function firebaseSignOut() {
+  await signOut(auth);
+}
+
+export function onUserStateChange(callback) {
+  onAuthStateChanged(auth, (user) => {
+    callback(user);
+  });
+}
