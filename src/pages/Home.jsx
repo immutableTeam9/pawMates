@@ -26,7 +26,7 @@ const Home = () => {
       <header>
         <div>
           <h1>Home</h1>
-          <Search posts={posts} setPosts={setPosts}></Search>
+          <Search posts={posts} setPosts={setPosts} fetchData={fetchData}></Search>
         </div>
       </header>
       <main>
