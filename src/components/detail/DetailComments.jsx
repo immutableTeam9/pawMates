@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { addDoc, collection, deleteDoc, doc, getDocs, query } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 import { db } from '../../firebase';
 import shortid from 'shortid';
+import { styled } from 'styled-components';
+import { useParams } from 'react-router-dom';
 
 function DetailComments({ users, post }) {
   // CommentListing
@@ -10,6 +11,7 @@ function DetailComments({ users, post }) {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState('');
   const [addComment, setAddComment] = useState(true);
+  const params = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,31 +26,45 @@ function DetailComments({ users, post }) {
       setComments(initialComments);
 
       setIsLoading(false);
+      console.log('한번 더 실행!');
     };
     fetchData();
+    console.log('이건됨');
   }, [addComment]);
-
   if (isLoading) {
     return <div>is Loading...</div>;
   }
   console.log('comments', comments);
   const filteredComments = comments.filter((comment) => {
-    return comment.postId === '1';
+    return comment.postDBId === params.id;
   });
 
   // form comment
-  const postId = post.postId;
+  const postDBId = post.id;
   const onChange = (e) => {
     setComment(e.target.value);
+  };
+  const getToday = () => {
+    const date = new Date();
+    console.log(date);
+    console.log(date.getFullYear());
+    console.log(date.getMonth());
+    console.log(date.getDate());
+    const year = date.getFullYear();
+    const month = ('0' + (1 + date.getMonth())).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const hour = ('0' + date.getHours()).slice(-2);
+    const minute = ('0' + date.getMinutes()).slice(-2);
+    return `${year}.${month}.${day} ${hour}:${minute}`;
   };
   const onSubmit = async (e) => {
     e.preventDefault();
     const newComment = {
       commentId: shortid.generate(),
-      date: String(new Date()),
-      userId: 'olxloha@gmail.com',
-      nickName: 'silverLee',
-      postId,
+      date: getToday(),
+      userId: 'userId',
+      nickName: '젤리곰',
+      postDBId,
       commentBody: comment
     };
     const collectionRef = collection(db, 'comments');
@@ -58,13 +74,12 @@ function DetailComments({ users, post }) {
       return [...comments, newComment];
     });
     setComment('');
+    // NOTE
     setAddComment(!addComment);
   };
 
   // delete comment
-  // [ ] DELETE BUTTON 해야함
   const onDeleteCommentClick = async (id) => {
-    // console.log('is this work?', id);
     const commentRef = doc(db, 'comments', id);
     await deleteDoc(commentRef);
 
@@ -90,7 +105,7 @@ function DetailComments({ users, post }) {
               </UserInfoArea>
               <div>
                 <p>{comment.nickName}</p>
-                <p>날짜</p>
+                <p>{comment.date}</p>
                 <p>{comment.commentBody}</p>
                 <button onClick={() => onDeleteCommentClick(comment.id)}>삭제</button>
               </div>

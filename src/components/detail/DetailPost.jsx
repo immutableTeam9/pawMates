@@ -1,5 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+// import React from 'react';
+// import styled from 'styled-components';
+
+import { styled } from 'styled-components';
 
 function DetailPost({ users, post }) {
   let writerImage = users.filter((user) => {
@@ -9,7 +11,14 @@ function DetailPost({ users, post }) {
   return (
     <DetailPostWrapper>
       <div>
-        <img src="" alt="detailPostImg" />
+        <img
+          src={post.imgURL}
+          alt="detailPostImg"
+          style={{
+            width: '20%',
+            height: '30%'
+          }}
+        />
       </div>
       <UserInfoArea>
         <UserImage src={writerImage} alt="" />

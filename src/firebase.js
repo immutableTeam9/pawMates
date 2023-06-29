@@ -1,3 +1,6 @@
+// firebase.js
+
+// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 
 import {
@@ -11,6 +14,8 @@ import {
 import { addDoc, collection, getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FB_API_KEY,
   authDomain: process.env.REACT_APP_FB_AUTH_DOMAIN,
@@ -62,3 +67,4 @@ export function onUserStateChange(callback) {
 }
 
 export default app;
+

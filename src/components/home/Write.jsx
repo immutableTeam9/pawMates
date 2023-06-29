@@ -38,6 +38,7 @@ const Write = ({ posts, setPosts, fetchData }) => {
       await uploadBytes(imageRef, selectedFile);
 
       const downloadURL = await getDownloadURL(imageRef);
+
       if (title && body) {
         console.log(typeof title);
         const newPost = {
@@ -45,6 +46,9 @@ const Write = ({ posts, setPosts, fetchData }) => {
           body: body,
           postId: postId,
           userId: 'userId',
+
+          // CHECKLIST 수정한 부분 : nickName 추가 (이유 : 댓글에서 사용)
+          nickName: '젤리곰',
           imgURL: downloadURL,
           imgName: selectedFile.name,
           date: new Date(),
@@ -72,6 +76,9 @@ const Write = ({ posts, setPosts, fetchData }) => {
           body: body,
           postId: postId,
           userId: 'userId',
+
+          // CHECKLIST 수정한 부분 : nickName 추가 (이유 : 댓글에서 사용)
+          nickName: '젤리곰',
           imgURL: null,
           imgName: null,
           date: new Date(),
@@ -88,7 +95,7 @@ const Write = ({ posts, setPosts, fetchData }) => {
         setBody('');
         closeModal();
         alert('저장되었습니다!');
-        console.log('태그 저장됐어?!', checkedTags);
+
       } else {
         alert('제목과 내용을 입력해주세요!');
       }
@@ -101,6 +108,7 @@ const Write = ({ posts, setPosts, fetchData }) => {
   const tags = useSelector((state) => state.tags);
   const [checkedTags, setCheckedTags] = useState([]);
   // const checkedTags = [];
+
   const checkedItemHandler = (checked, value) => {
     if (checked) {
       if (checkedTags.includes(value)) {
