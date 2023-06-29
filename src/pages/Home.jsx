@@ -4,6 +4,7 @@ import PostList from '../components/home/PostList';
 import Write from '../components/home/Write';
 import { db } from '../firebase';
 import { collection, getDocs, query } from 'firebase/firestore';
+import Header from '../components/Header';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -23,6 +24,7 @@ const Home = () => {
   }, []);
   return (
     <div>
+      <Header />
       <header>
         <div>
           <h1>Home</h1>
