@@ -19,9 +19,10 @@ const Search = ({ posts, setPosts, fetchData }) => {
         return typeof post.tags == 'string' && post.tags.toLowerCase().includes(searchWord);
       });
       searchPost.push(...searchTag);
-
+      const setSearchPost = new Set(searchPost);
       if (searchPost.length !== 0) {
-        setPosts(searchPost);
+        setPosts([...setSearchPost]);
+        setWord('');
       } else {
         alert('검색 결과가 없습니다!');
       }
@@ -33,11 +34,11 @@ const Search = ({ posts, setPosts, fetchData }) => {
         return typeof post.tags == 'string' && post.tags.toLowerCase().includes(tag);
       });
       searchPost.push(...searchTag);
-      setPosts(searchPost);
+      const setSearchPost = new Set(searchPost);
+      setPosts([...setSearchPost]);
     } else if (word == false) {
       alert('검색어를 입력하세요!');
     }
-    // const q = query(collection(db, 'posts'), where('title', '>=', word), where('title', '<=', word));
   };
 
   const tags = useSelector((state) => state.tags);

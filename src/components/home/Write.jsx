@@ -88,27 +88,31 @@ const Write = ({ posts, setPosts, fetchData }) => {
         setBody('');
         closeModal();
         alert('저장되었습니다!');
+        console.log('태그 저장됐어?!', checkedTags);
       } else {
         alert('제목과 내용을 입력해주세요!');
       }
     }
   };
 
+  useEffect(() => {
+    setCheckedTags([]);
+  }, [posts]);
   const tags = useSelector((state) => state.tags);
-  const [isChecked, setIsChecked] = useState(null);
-  let checkedTags = [];
+  const [checkedTags, setCheckedTags] = useState([]);
+  // const checkedTags = [];
   const checkedItemHandler = (checked, value) => {
     if (checked) {
       if (checkedTags.includes(value)) {
         return;
       } else {
-        checkedTags.push(value);
+        // checkedTags.push(value);
+        setCheckedTags([...checkedTags, value]);
       }
-      console.log(checkedTags);
     } else {
       const removedTags = checkedTags.filter((tag) => tag !== value);
-      checkedTags = [...removedTags];
-      console.log(checkedTags);
+      // checkedTags = [...removedTags];
+      setCheckedTags([...removedTags]);
     }
   };
   return (
@@ -148,7 +152,6 @@ const Write = ({ posts, setPosts, fetchData }) => {
                       <input
                         type="checkbox"
                         name="tag"
-                        checked={isChecked}
                         value={tag}
                         onChange={(e) => checkedItemHandler(e.target.checked, e.target.value)}
                       />
