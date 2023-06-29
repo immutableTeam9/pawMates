@@ -16,7 +16,7 @@ const ModifyPost = ({ closeModal, post, setPosts }) => {
     if (window.confirm('정말 수정하시겠습니다?')) {
       event.preventDefault();
       const postRef = doc(db, 'posts', post.id);
-      if (post.img === null) {
+      if (post.imgName === null) {
         await updateDoc(postRef, { ...post, title: title, body: body });
 
         setPosts((prev) => {

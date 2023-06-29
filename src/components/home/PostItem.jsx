@@ -49,6 +49,7 @@ const PostItem = ({ post, setPosts }) => {
       <h3>{post.title}</h3>
       <p>{post.body}</p>
       <p>작성자 : {post.userId}</p>
+      <p>{post.tags}</p>
       <button onClick={openModal}>수정</button>
       {isOpen && (
         <StModalBox>

@@ -4,6 +4,7 @@ import shortid from 'shortid';
 import { db, storage } from '../../firebase';
 import { addDoc, collection, doc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Write = ({ posts, setPosts, fetchData }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,52 +38,79 @@ const Write = ({ posts, setPosts, fetchData }) => {
       await uploadBytes(imageRef, selectedFile);
 
       const downloadURL = await getDownloadURL(imageRef);
+      if (title && body) {
+        console.log(typeof title);
+        const newPost = {
+          title: title,
+          body: body,
+          postId: postId,
+          userId: 'userId',
+          imgURL: downloadURL,
+          imgName: selectedFile.name,
+          date: new Date(),
+          tags: checkedTags.join()
+        };
+        setPosts((prev) => {
+          return [...posts, newPost];
+        });
 
-      const newPost = {
-        title: title,
-        body: body,
-        postId: postId,
-        userId: 'userId',
-        imgURL: downloadURL,
-        imgName: selectedFile.name,
-        date: new Date()
-      };
-      setPosts((prev) => {
-        return [...posts, newPost];
-      });
-
-      const collectionRef = collection(db, 'posts');
-      await addDoc(collectionRef, newPost);
-      fetchData();
-      setSelectedFile(null);
-      setTitle('');
-      setBody('');
-      closeModal();
-      alert('저장되었습니다!');
+        const collectionRef = collection(db, 'posts');
+        await addDoc(collectionRef, newPost);
+        fetchData();
+        setSelectedFile(null);
+        setTitle('');
+        setBody('');
+        closeModal();
+        alert('저장되었습니다!');
+      } else {
+        alert('제목과 내용을 입력해주세요!');
+      }
     } else {
-      const newPost = {
-        title: title,
-        body: body,
-        postId: postId,
-        userId: 'userId',
-        imgURL: null,
-        imgName: null,
-        date: new Date()
-      };
-      setPosts((prev) => {
-        return [...posts, newPost];
-      });
+      if (title && body) {
+        const newPost = {
+          title: title,
+          body: body,
+          postId: postId,
+          userId: 'userId',
+          imgURL: null,
+          imgName: null,
+          date: new Date(),
+          tags: checkedTags.join()
+        };
+        setPosts((prev) => {
+          return [...posts, newPost];
+        });
 
-      const collectionRef = collection(db, 'posts');
-      await addDoc(collectionRef, newPost);
-      fetchData();
-      setTitle('');
-      setBody('');
-      closeModal();
-      alert('저장되었습니다!');
+        const collectionRef = collection(db, 'posts');
+        await addDoc(collectionRef, newPost);
+        fetchData();
+        setTitle('');
+        setBody('');
+        closeModal();
+        alert('저장되었습니다!');
+      } else {
+        alert('제목과 내용을 입력해주세요!');
+      }
     }
   };
 
+  const tags = useSelector((state) => state.tags);
+  const [isChecked, setIsChecked] = useState(null);
+  let checkedTags = [];
+  const checkedItemHandler = (checked, value) => {
+    if (checked) {
+      if (checkedTags.includes(value)) {
+        return;
+      } else {
+        checkedTags.push(value);
+      }
+      console.log(checkedTags);
+    } else {
+      const removedTags = checkedTags.filter((tag) => tag !== value);
+      checkedTags = [...removedTags];
+      console.log(checkedTags);
+    }
+  };
   return (
     <div>
       <button onClick={openModal}>글 작성하기</button>
@@ -111,6 +139,23 @@ const Write = ({ posts, setPosts, fetchData }) => {
               <div>
                 이미지 파일 올리기
                 <input type="file" onChange={handleFileSelect} />
+              </div>
+              <div>
+                <p>태그 선택하기</p>
+                {tags.map((tag) => {
+                  return (
+                    <label key={tag}>
+                      <input
+                        type="checkbox"
+                        name="tag"
+                        checked={isChecked}
+                        value={tag}
+                        onChange={(e) => checkedItemHandler(e.target.checked, e.target.value)}
+                      />
+                      <span>{tag}</span>
+                    </label>
+                  );
+                })}
               </div>
               <button>저장</button>
               <button type="button" onClick={closeModal}>
