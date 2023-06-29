@@ -5,6 +5,7 @@ import { db } from '../../firebase';
 
 const Search = ({ posts, setPosts, fetchData }) => {
   const [word, setWord] = useState('');
+
   const fetchPosts = useSelector((state) => state.posts);
 
   const searchHandler = async (e, tag) => {
@@ -23,6 +24,7 @@ const Search = ({ posts, setPosts, fetchData }) => {
       if (searchPost.length !== 0) {
         setPosts([...setSearchPost]);
         setWord('');
+
       } else {
         alert('검색 결과가 없습니다!');
       }
@@ -39,6 +41,7 @@ const Search = ({ posts, setPosts, fetchData }) => {
     } else if (word == false) {
       alert('검색어를 입력하세요!');
     }
+
   };
 
   const tags = useSelector((state) => state.tags);

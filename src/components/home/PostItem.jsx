@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
 import { getDownloadURL, ref } from 'firebase/storage';
+import { useNavigate } from 'react-router-dom';
 
 const PostItem = ({ post, setPosts }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +29,7 @@ const PostItem = ({ post, setPosts }) => {
     } else return;
   };
 
+  const navigate = useNavigate();
   return (
     <div
       key={post.id}
@@ -59,6 +61,14 @@ const PostItem = ({ post, setPosts }) => {
         </StModalBox>
       )}
       <button onClick={deletePost}>삭제</button>
+
+      <button
+        onClick={() => {
+          navigate(`/detail/${post.id}`);
+        }}
+      >
+        상세보기
+      </button>
     </div>
   );
 };

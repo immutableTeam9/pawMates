@@ -7,6 +7,7 @@ import tags from '../modules/tags';
 
 const rootReducer = combineReducers({ modalState, user, initialState, posts, tags });
 
+
 const store = createStore(rootReducer);
 
 export default store;
