@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PostItem from './PostItem';
-import { useSelector } from 'react-redux';
-import { collection, getDocs, query } from 'firebase/firestore';
-import { db } from '../../firebase';
 
 const PostList = ({ posts, setPosts }) => {
   return (

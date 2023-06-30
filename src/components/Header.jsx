@@ -1,6 +1,6 @@
 import { firebaseSignOut, onUserStateChange } from '../firebase';
 import SignIn from './SignIn';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/modules/user';
