@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import ModifyPost from '../home/ModifyPost';
 import { styled } from 'styled-components';
 import { collection, deleteDoc, doc, getDocs, query } from 'firebase/firestore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router';
 import Modal from './../Modal';
+import ModifyPost from './ModifyPost';
 
 function DetailPost() {
+  // controll state & sth
   const userState = useSelector((state) => state.user);
-  const userNickName = userState.displayName;
-  const userEmail = userState.email;
   const userId = userState.uid;
-  const userImage = userState.photoURL;
-
   const [isOpen, setIsOpen] = useState(false);
-  const params = useParams();
-  const navigate = useNavigate();
-
-  // controll state feature
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const params = useParams();
+  const navigate = useNavigate();
 
   // getData from firebase
   const fetchData = async () => {
@@ -38,6 +32,7 @@ function DetailPost() {
 
     setIsLoading(false);
   };
+  // get data 'posts' from firebase
   useEffect(() => {
     fetchData();
   }, []);
@@ -45,11 +40,12 @@ function DetailPost() {
   if (isLoading) {
     return <div>Loading....</div>;
   }
-  console.log(posts);
 
+  // filter data 'post' for detail page
   const post = posts.filter((post) => {
     return post.id === params.id;
   })[0];
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -58,15 +54,12 @@ function DetailPost() {
     setIsOpen(false);
   };
 
+  // delete data from firebas
   const deletePost = async () => {
     if (window.confirm('정말 삭제하시겠습니다?')) {
       const postRef = doc(db, 'posts', post.id);
       await deleteDoc(postRef);
 
-      // [x] detail에서도 setPosts 없어도 home에서 사라지기에 없앴음
-      // setPosts((prev) => {
-      //   return prev.filter((element) => element.id !== post.id);
-      // });
       alert('삭제 되었습니다.');
       navigate(-1);
     } else return;

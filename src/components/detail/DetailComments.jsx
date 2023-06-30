@@ -50,7 +50,6 @@ function DetailComments({ users }) {
   });
 
   // form comment
-  // [ ] 로그인 중인 user nickName입력
   const postDBId = param.id;
   const onChange = (e) => {
     setComment(e.target.value);

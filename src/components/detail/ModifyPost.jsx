@@ -8,15 +8,10 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
   const [title, setTitle] = useState(post.title);
   const [body, setBody] = useState(post.body);
 
-
-
-  // tag 체크박스 checkedDefault 해줘야하고, checkedDefault되어있는 상황에서 변경시켜줘야하니까..
-  // checkedTags에 store에서 가져온 tag랑 todo에 있는 tag를 이용해서 {tag, isHere(true, false)} 객체로 관리 ..하자 그러면 => checked={true, false}로 구분할 수 있..을거야
-
   // tags
   const tags = useSelector((state) => state.tags);
-  const prevTags = post.tags.split(','); // ['#병원', '#강아지']
-  const [pickedCheckedTags, setPickedCheckedTags] = useState(prevTags);
+  const prevTags = post.tags.split(','); // ['#병원', '#강아지'] // 기존 저장된 tags
+  const [pickedCheckedTags, setPickedCheckedTags] = useState(prevTags); // '수정'에 제출할 tag 형태
   let initialCheckedtags = tags.map((tag) => {
     if (prevTags.includes(tag)) {
       return { tag, isHere: true };
@@ -24,18 +19,8 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
       return { tag, isHere: false };
     }
   });
-  console.log('initialCheckedtags', initialCheckedtags);
-  const [checkedTags, setCheckedTags] = useState(initialCheckedtags);
+  const [checkedTags, setCheckedTags] = useState(initialCheckedtags); // 모든 태그가 이 형태로 저장 [{tag: '#병원', isHere:true}, {tag: '#고양이', isHere:false}, ・・・ ]
 
-  // [ ] 질문 ?? => setCheckedTags()는 왜... useEffect에 넣은 거징
-  // useEffect(() => {
-  //   setCheckedTags([]);
-  // }, []);
-
-  // [ ] 너무 헷갈려..ㅋㅋㅋ
-  // (checkedTags(모든 tags와 true, false여부가 있음)-->) pickedCheckedTags에 보내줄 최종 태그 배열을 담아야해.
-  // checkedTags store에서 전체 태그, todos에서 true,false가져온걸로 조합해 만들기
-  // checked가 onChange 될 때마다 checkedTags바뀌고!!, pickedCheckedTags도 바뀌죠.
   const checkedItemHandler = (changedTag) => {
     const newCheckedTags = checkedTags.map((prevTag) => {
       if (prevTag.tag === changedTag) {
@@ -55,14 +40,12 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
           return filtered.tag;
         })
     );
-    // console.log(pickedCheckedTags);
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files?.[0]);
   };
-  console.log('pickedCheckedTags 제발..', pickedCheckedTags);
   const modifyUploadedImg = async (postRef) => {
     const imageRef = ref(storage, `${post.postId}/${selectedFile.name}`);
     await uploadBytes(imageRef, selectedFile);
@@ -148,6 +131,8 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
     const imageRef = ref(storage, `${post.postId}/${post.imgName}`);
     await deleteObject(imageRef);
   };
+
+  // form tag enter 불필요한 제출 방지
   const preventEnter = (e) => {
     if (e.code === 'Enter') {
       e.preventDefault();
