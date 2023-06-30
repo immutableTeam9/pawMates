@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { modifyProfile, onUserStateChange, storage } from '../firebase';
 import { setUser } from '../redux/modules/user';
@@ -18,24 +18,30 @@ export default function ModifyProfile() {
   const handleImgPreviw = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
-    reader.onload = (e) => {
-      setImgSrc(e.target.result);
-    };
-    setSelectedFile(file);
-    reader.readAsDataURL(file);
+
+    if (file) {
+      setSelectedFile(file);
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        setImgSrc(e.target.result);
+      };
+    }
   };
 
   const handleModifyProfile = async (e) => {
     e.preventDefault();
+    let newPhotoURL;
     if (!newDispalyName.length) {
       alert('닉네임을 입력해주세요');
       return false;
     } else {
-      const imgRef = ref(storage, `${uid}/profile/img/${selectedFile?.name}`);
-      await uploadBytes(imgRef, selectedFile);
-      const newPhotoURL = await getDownloadURL(imgRef);
+      if (!!selectedFile) {
+        const imgRef = ref(storage, `${uid}/profile/img/${selectedFile?.name}`);
+        await uploadBytes(imgRef, selectedFile);
+        newPhotoURL = await getDownloadURL(imgRef);
+      }
 
-      modifyProfile(newDispalyName, selectedFile?.name ? newPhotoURL : photoURL).then(() => {
+      modifyProfile(newDispalyName, newPhotoURL || photoURL).then(() => {
         onUserStateChange((user) => {
           dispatch(setUser(user));
         });
