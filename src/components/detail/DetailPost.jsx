@@ -84,7 +84,7 @@ function DetailPost() {
       <div>
         <h3>{post.title}</h3>
         <p>{post.body}</p>
-        <p>hashTags</p>
+        <p>{post.tags}</p>
       </div>
 
       {/* [ ] 메인에서 수정, 삭제 가져오기 */}
