@@ -13,74 +13,62 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
     setSelectedFile(event.target.files?.[0]);
   };
 
+  const modifyUploadedImg = async (postRef) => {
+    const imageRef = ref(storage, `${post.postId}/${selectedFile.name}`);
+    await uploadBytes(imageRef, selectedFile);
+    const downloadURL = await getDownloadURL(imageRef);
+
+    setPosts((prev) => {
+      return prev.map((element) => {
+        if (element.id === post.id) {
+          return { ...element, title, body, imgURL: downloadURL, imgName: selectedFile.name };
+        } else {
+          return element;
+        }
+      });
+    });
+    await updateDoc(postRef, {
+      ...post,
+      title,
+      body,
+      imgURL: downloadURL,
+      imgName: selectedFile.name
+    });
+    closeModal();
+    alert('수정되었습니다!');
+  };
+
+  const modifyPost = async (postRef) => {
+    await updateDoc(postRef, { ...post, title, body });
+    setPosts((prev) => {
+      return prev.map((element) => {
+        if (element.id === post.id) {
+          return { ...element, title, body };
+        } else {
+          return element;
+        }
+      });
+    });
+    closeModal();
+    alert('수정되었습니다!');
+  };
+
   const updatePost = async (event) => {
-    if (window.confirm('정말 수정하시겠습니까?')) {
+    if (window.confirm('수정하시겠습니까?')) {
       event.preventDefault();
       const postRef = doc(db, 'posts', post.id);
       if (post.imgName === null) {
         if (selectedFile) {
-          const imageRef = ref(storage, `${post.postId}/${selectedFile.name}`);
-          await uploadBytes(imageRef, selectedFile);
-          const downloadURL = await getDownloadURL(imageRef);
-
-          setPosts((prev) => {
-            return prev.map((element) => {
-              if (element.id === post.id) {
-                return { ...element, title: title, body: body, imgURL: downloadURL, imgName: selectedFile.name };
-              } else {
-                return element;
-              }
-            });
-          });
-          await updateDoc(postRef, {
-            ...post,
-            title: title,
-            body: body,
-            imgURL: downloadURL,
-            imgName: selectedFile.name
-          });
-          closeModal();
-          alert('수정되었습니다!');
+          modifyUploadedImg(postRef);
         } else {
-          await updateDoc(postRef, { ...post, title: title, body: body });
-
-          setPosts((prev) => {
-            return prev.map((element) => {
-              if (element.id === post.id) {
-                return { ...element, title: title, body: body };
-              } else {
-                return element;
-              }
-            });
-          });
-          closeModal();
-          alert('수정되었습니다!');
+          modifyPost(postRef);
         }
       } else {
-        const imageRef = ref(storage, `${post.postId}/${selectedFile.name}`);
-        await uploadBytes(imageRef, selectedFile);
-        const downloadURL = await getDownloadURL(imageRef);
-
-        setPosts((prev) => {
-          return prev.map((element) => {
-            if (element.id === post.id) {
-              return { ...element, title: title, body: body, imgURL: downloadURL, imgName: selectedFile.name };
-            } else {
-              return element;
-            }
-          });
-        });
-        await updateDoc(postRef, {
-          ...post,
-          title: title,
-          body: body,
-          imgURL: downloadURL,
-          imgName: selectedFile.name
-        });
-        const deletedImgRef = ref(storage, `${post.postId}/${post.imgName}`);
-        await deleteObject(deletedImgRef);
-        closeModal();
-        alert('수정되었습니다!');
+        if (selectedFile) {
+          modifyUploadedImg(postRef);
+        } else {
+          modifyPost(postRef);
+        }
       }
     } else return;
   };

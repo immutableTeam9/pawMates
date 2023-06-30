@@ -1,9 +1,7 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { db } from '../../firebase';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-const Search = ({ posts, setPosts, fetchData }) => {
+const Search = ({ setPosts }) => {
   const [word, setWord] = useState('');
 
   const fetchPosts = useSelector((state) => state.posts);
@@ -21,7 +19,7 @@ const Search = ({ posts, setPosts, fetchData }) => {
         );
       });
       const searchTag = fetchPosts.filter((post) => {
-        return typeof post.tags == 'string' && post.tags.toLowerCase().includes(searchWord);
+        return typeof post.tags === 'string' && post.tags.toLowerCase().includes(searchWord);
       });
       searchPost.push(...searchTag);
       const setSearchPost = new Set(searchPost);
@@ -33,10 +31,14 @@ const Search = ({ posts, setPosts, fetchData }) => {
       }
     } else if (tag) {
       const searchPost = fetchPosts.filter((post) => {
-        return post.title.toLowerCase().includes(tag) || post.body.toLowerCase().includes(tag);
+        return (
+          post.title.toLowerCase().includes(tag) ||
+          post.body.toLowerCase().includes(tag) ||
+          post.nickName.toLowerCase().includes(tag)
+        );
       });
       const searchTag = fetchPosts.filter((post) => {
-        return typeof post.tags == 'string' && post.tags.toLowerCase().includes(tag);
+        return typeof post.tags === 'string' && post.tags.toLowerCase().includes(tag);
       });
       searchPost.push(...searchTag);
       const setSearchPost = new Set(searchPost);

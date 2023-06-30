@@ -19,18 +19,18 @@ const Home = () => {
     });
     setPosts(initialPosts);
   };
+
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <div>
       <Header />
-      <header>
-        <div>
-          <h1>Home</h1>
-          <Search posts={posts} setPosts={setPosts} fetchData={fetchData}></Search>
-        </div>
-      </header>
+      <div>
+        <h1>Home</h1>
+        <Search posts={posts} setPosts={setPosts} fetchData={fetchData}></Search>
+      </div>
       <main>
         <Write posts={posts} setPosts={setPosts} fetchData={fetchData}></Write>
         <PostList posts={posts} setPosts={setPosts}></PostList>
