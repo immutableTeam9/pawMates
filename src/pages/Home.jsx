@@ -27,7 +27,7 @@ const Home = () => {
 
   return (
     <>
-      <Header />
+      <Header posts={posts} />
       <div>
         <h1>Home</h1>
         <Search posts={posts} setPosts={setPosts} fetchData={fetchData} />

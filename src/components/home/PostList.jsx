@@ -1,7 +1,7 @@
 import React from 'react';
 import PostItem from './PostItem';
 
-const PostList = ({ posts, setPosts }) => {
+const PostList = ({ posts }) => {
   return (
     <div>
       <h2>게시물</h2>
@@ -10,7 +10,7 @@ const PostList = ({ posts, setPosts }) => {
           return b.date - a.date;
         })
         .map((post) => {
-          return <PostItem key={post.id} post={post}></PostItem>;
+          return <PostItem key={post.id} post={post} posts={posts}></PostItem>;
         })}
     </div>
   );

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import ModifyPost from '../home/ModifyPost';
 import { styled } from 'styled-components';
 import { collection, deleteDoc, doc, getDocs, query } from 'firebase/firestore';
-import { getDownloadURL, ref } from 'firebase/storage';
 import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import Modal from './../Modal';
 
 function DetailPost() {
   const userState = useSelector((state) => state.user);
@@ -23,21 +24,21 @@ function DetailPost() {
   const [isLoading, setIsLoading] = useState(true);
 
   // getData from firebase
+  const fetchData = async () => {
+    const qPosts = query(collection(db, 'posts'));
+
+    const querySnapshotPosts = await getDocs(qPosts);
+
+    const initialPosts = [];
+
+    querySnapshotPosts.forEach((doc) => {
+      initialPosts.push({ id: doc.id, ...doc.data() });
+    });
+    setPosts(initialPosts);
+
+    setIsLoading(false);
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      const qPosts = query(collection(db, 'posts'));
-
-      const querySnapshotPosts = await getDocs(qPosts);
-
-      const initialPosts = [];
-
-      querySnapshotPosts.forEach((doc) => {
-        initialPosts.push({ id: doc.id, ...doc.data() });
-      });
-      setPosts(initialPosts);
-
-      setIsLoading(false);
-    };
     fetchData();
   }, []);
 
@@ -67,7 +68,7 @@ function DetailPost() {
       //   return prev.filter((element) => element.id !== post.id);
       // });
       alert('삭제 되었습니다.');
-      navigate('/');
+      navigate(-1);
     } else return;
   };
 
@@ -93,11 +94,9 @@ function DetailPost() {
       </div>
       {userId === post.userId && <button onClick={openModal}>수정</button>}
       {isOpen && (
-        <StModalBox>
-          <StModalContents>
-            <ModifyPost closeModal={closeModal} post={post} setPosts={setPosts}></ModifyPost>
-          </StModalContents>
-        </StModalBox>
+        <Modal>
+          <ModifyPost closeModal={closeModal} post={post} setPosts={setPosts}></ModifyPost>
+        </Modal>
       )}
       {userId === post.userId && <button onClick={deletePost}>삭제</button>}
     </DetailPostWrapper>
@@ -121,24 +120,4 @@ const UserImage = styled.img`
   width: 30px;
   height: 30px;
   border-radius: 100%;
-`;
-
-const StModalBox = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StModalContents = styled.div`
-  background-color: #fff;
-  padding: 20px;
-  width: 50%;
-  height: 50%;
-  border-radius: 12px;
 `;
