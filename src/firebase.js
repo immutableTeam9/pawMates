@@ -11,7 +11,7 @@ import {
   signOut,
   updateProfile
 } from 'firebase/auth';
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { addDoc, collection, getFirestore, query, where } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
@@ -31,13 +31,10 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
-// [ ] userImage 필요해서 기본값을 일단 설정했음. 해도 되는지 확인 필요
 export async function firebaseSignUp(email, pwd, nickName, userImage, petInfo) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, pwd);
     await updateProfile(auth.currentUser, { displayName: nickName, photoURL: userImage });
-    // await updateProfile(auth.currentUser, { photoURL: userImage });
-
     await savePetInfo(petInfo, userCredential.user.uid);
   } catch (error) {
     console.error(error);
@@ -66,6 +63,16 @@ export function onUserStateChange(callback) {
   onAuthStateChanged(auth, (user) => {
     callback(user);
   });
+}
+
+export async function modifyProfile(nickName, userImage) {
+  await updateProfile(auth.currentUser, { displayName: nickName, photoURL: userImage });
+}
+
+export function getPostsByUser(userId) {
+  const postsRef = collection(db, 'posts');
+  const q = query(postsRef, where('userId', '==', 'userId'));
+  return q;
 }
 
 export default app;

@@ -72,11 +72,12 @@ export default function SignUp() {
     e.preventDefault();
     if (validationCheck()) {
       await firebaseSignUp(email, pwd, nickName, userImage, petInfo) //
-        .then(dispatch(signupModalInactive()));
-
-      onUserStateChange((user) => {
-        dispatch(setUser(user));
-      });
+        .then(() => {
+          onUserStateChange((user) => {
+            dispatch(setUser(user));
+            dispatch(signupModalInactive());
+          });
+        });
     }
   };
 
