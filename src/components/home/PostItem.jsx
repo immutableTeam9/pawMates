@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import ModifyPost from './ModifyPost';
 import { styled } from 'styled-components';
 import { deleteDoc, doc } from 'firebase/firestore';
-import { db, storage } from '../../firebase';
-import { getDownloadURL, ref } from 'firebase/storage';
+import { db } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const PostItem = ({ post, setPosts }) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const userState = useSelector((state) => state.user);
   const openModal = () => {
     setIsOpen(true);
   };
@@ -17,16 +17,22 @@ const PostItem = ({ post, setPosts }) => {
     setIsOpen(false);
   };
 
-  const deletePost = async () => {
-    if (window.confirm('정말 삭제하시겠습니다?')) {
-      const postRef = doc(db, 'posts', post.id);
-      await deleteDoc(postRef);
-
-      setPosts((prev) => {
-        return prev.filter((element) => element.id !== post.id);
-      });
-      alert('삭제 되었습니다.');
-    } else return;
+  //삭제하기 버튼에 권한확인 추가 했는데 필요없으면 안써도 돼요~~~!~!~!!
+  const deletePost = async (userId) => {
+    if (userState === null) {
+      alert('권한이 없습니다!');
+    } else if (userId === userState.uid) {
+      if (window.confirm('정말 삭제하시겠습니다?')) {
+        const postRef = doc(db, 'posts', post.id);
+        await deleteDoc(postRef);
+        setPosts((prev) => {
+          return prev.filter((element) => element.id !== post.id);
+        });
+        alert('삭제 되었습니다.');
+      }
+    } else if (userId !== userState.uid) {
+      alert('권한이 없습니다!');
+    }
   };
 
   const navigate = useNavigate();
@@ -50,17 +56,23 @@ const PostItem = ({ post, setPosts }) => {
       ) : null}
       <h3>{post.title}</h3>
       <p>{post.body}</p>
-      <p>작성자 : {post.userId}</p>
+      <p>작성자 : {post.nickName}</p>
       <p>{post.tags}</p>
       <button onClick={openModal}>수정</button>
       {isOpen && (
         <StModalBox>
           <StModalContents>
-            <ModifyPost closeModal={closeModal} post={post} setPosts={setPosts}></ModifyPost>
+            <ModifyPost
+              closeModal={closeModal}
+              post={post}
+              setPosts={setPosts}
+              postId={post.postId}
+              imgName={post.imgName}
+            ></ModifyPost>
           </StModalContents>
         </StModalBox>
       )}
-      <button onClick={deletePost}>삭제</button>
+      <button onClick={() => deletePost(post.userId)}>삭제</button>
 
       <button
         onClick={() => {

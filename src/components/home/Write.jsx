@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import shortid from 'shortid';
-import { db, storage } from '../../firebase';
+import { auth, db, storage } from '../../firebase';
 import { addDoc, collection, doc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Write = ({ posts, setPosts, fetchData }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const userState = useSelector((state) => state.user);
   const openModal = () => {
     setIsOpen(true);
   };
@@ -32,73 +33,73 @@ const Write = ({ posts, setPosts, fetchData }) => {
 
   const addPost = async (event) => {
     event.preventDefault();
+    if (userState !== null) {
+      if (selectedFile) {
+        const imageRef = ref(storage, `${postId}/${selectedFile.name}`);
+        await uploadBytes(imageRef, selectedFile);
 
-    if (selectedFile) {
-      const imageRef = ref(storage, `${postId}/${selectedFile.name}`);
-      await uploadBytes(imageRef, selectedFile);
+        const downloadURL = await getDownloadURL(imageRef);
 
-      const downloadURL = await getDownloadURL(imageRef);
+        if (title && body) {
+          console.log(typeof title);
+          const newPost = {
+            title: title,
+            body: body,
+            postId: postId,
+            userId: userState.uid,
+            nickName: userState.displayName,
+            imgURL: downloadURL,
+            imgName: selectedFile.name,
+            date: new Date(),
+            tags: checkedTags.join(),
+            userImage: null
+          };
+          setPosts((prev) => {
+            return [...posts, newPost];
+          });
 
-      if (title && body) {
-        console.log(typeof title);
-        const newPost = {
-          title: title,
-          body: body,
-          postId: postId,
-          userId: 'userId',
-
-          // CHECKLIST 수정한 부분 : nickName 추가 (이유 : 댓글에서 사용)
-          nickName: '젤리곰',
-          imgURL: downloadURL,
-          imgName: selectedFile.name,
-          date: new Date(),
-          tags: checkedTags.join()
-        };
-        setPosts((prev) => {
-          return [...posts, newPost];
-        });
-
-        const collectionRef = collection(db, 'posts');
-        await addDoc(collectionRef, newPost);
-        fetchData();
-        setSelectedFile(null);
-        setTitle('');
-        setBody('');
-        closeModal();
-        alert('저장되었습니다!');
+          const collectionRef = collection(db, 'posts');
+          await addDoc(collectionRef, newPost);
+          fetchData();
+          setSelectedFile(null);
+          setTitle('');
+          setBody('');
+          closeModal();
+          alert('저장되었습니다!');
+        } else {
+          alert('제목과 내용을 입력해주세요!');
+        }
       } else {
-        alert('제목과 내용을 입력해주세요!');
+        if (title && body) {
+          const newPost = {
+            title: title,
+            body: body,
+            postId: postId,
+            userId: userState.uid,
+            nickName: userState.displayName,
+            imgURL: null,
+            imgName: null,
+            date: new Date(),
+            tags: checkedTags.join(),
+            userImage: null
+          };
+          setPosts((prev) => {
+            return [...posts, newPost];
+          });
+
+          const collectionRef = collection(db, 'posts');
+          await addDoc(collectionRef, newPost);
+          fetchData();
+          setTitle('');
+          setBody('');
+          closeModal();
+          alert('저장되었습니다!');
+        } else {
+          alert('제목과 내용을 입력해주세요!');
+        }
       }
     } else {
-      if (title && body) {
-        const newPost = {
-          title: title,
-          body: body,
-          postId: postId,
-          userId: 'userId',
-
-          // CHECKLIST 수정한 부분 : nickName 추가 (이유 : 댓글에서 사용)
-          nickName: '젤리곰',
-          imgURL: null,
-          imgName: null,
-          date: new Date(),
-          tags: checkedTags.join()
-        };
-        setPosts((prev) => {
-          return [...posts, newPost];
-        });
-
-        const collectionRef = collection(db, 'posts');
-        await addDoc(collectionRef, newPost);
-        fetchData();
-        setTitle('');
-        setBody('');
-        closeModal();
-        alert('저장되었습니다!');
-
-      } else {
-        alert('제목과 내용을 입력해주세요!');
-      }
+      alert('로그인이 되어 있지 않습니다!');
     }
   };
 
