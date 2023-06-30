@@ -10,6 +10,7 @@ const WritePost = ({ posts, setPosts, fetchData, closeModal }) => {
   const [body, setBody] = useState('');
   const [postId, setPostId] = useState('');
   const userState = useSelector((state) => state.user);
+  const userImage = userState.photoURL;
 
   useEffect(() => {
     setPostId(shortid.generate());
@@ -35,7 +36,7 @@ const WritePost = ({ posts, setPosts, fetchData, closeModal }) => {
           imgName: selectedFile ? selectedFile.name : null,
           date: new Date(),
           tags: checkedTags.join(),
-          userImage: null
+          userImage
         };
         setPosts((prev) => {
           return [...posts, newPost];
