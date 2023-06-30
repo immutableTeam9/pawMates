@@ -9,7 +9,9 @@ export default function SignUp() {
   const [newUser, setNewUser] = useState({
     email: '',
     pwd: '',
-    nickName: ''
+    nickName: '',
+    // [ ] userImage 필요해서 기본값을 일단 설정했음. 해도 되는지 확인 필요
+    userImage: 'https://cdn-icons-png.flaticon.com/512/552/552721.png'
   });
   const [petInfo, setPetInfo] = useState({
     ownerId: '',
@@ -18,10 +20,12 @@ export default function SignUp() {
     age: '',
     gender: ''
   });
-  const { email, pwd, nickName } = newUser;
+  const { email, pwd, nickName, userImage } = newUser;
   const nickNameRef = useRef(null);
   const emailRef = useRef(null);
   const pwdRef = useRef(null);
+  // const userRef = useRef(null);
+  console.log('signUp에서 image들어오나 확인', userImage);
 
   const onChange = (e) => {
     const {
@@ -70,7 +74,7 @@ export default function SignUp() {
   const signUp = async (e) => {
     e.preventDefault();
     if (validationCheck()) {
-      await firebaseSignUp(email, pwd, nickName, petInfo) //
+      await firebaseSignUp(email, pwd, nickName, userImage, petInfo) //
         .then(dispatch(signupModalInactive()));
 
       onUserStateChange((user) => {

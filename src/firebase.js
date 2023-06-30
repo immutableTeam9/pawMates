@@ -14,7 +14,6 @@ import {
 import { addDoc, collection, getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FB_API_KEY,
@@ -32,10 +31,13 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
-export async function firebaseSignUp(email, pwd, nickName, petInfo) {
+// [ ] userImage 필요해서 기본값을 일단 설정했음. 해도 되는지 확인 필요
+export async function firebaseSignUp(email, pwd, nickName, userImage, petInfo) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, pwd);
-    await updateProfile(auth.currentUser, { displayName: nickName });
+    await updateProfile(auth.currentUser, { displayName: nickName, photoURL: userImage });
+    // await updateProfile(auth.currentUser, { photoURL: userImage });
+
     await savePetInfo(petInfo, userCredential.user.uid);
   } catch (error) {
     console.error(error);
@@ -67,4 +69,3 @@ export function onUserStateChange(callback) {
 }
 
 export default app;
-

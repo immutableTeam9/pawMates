@@ -7,8 +7,15 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Write = ({ posts, setPosts, fetchData }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  // identification
   const userState = useSelector((state) => state.user);
+  const userNickName = userState.displayName;
+  const userEmail = userState.email;
+  const userId = userState.uid;
+  const userImage = userState.photoURL;
+  console.log('디테일', userState);
+
+  const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
     setIsOpen(true);
   };
@@ -99,7 +106,36 @@ const Write = ({ posts, setPosts, fetchData }) => {
         }
       }
     } else {
+      // [ ] ???? 아래 이 한 줄 뭐지
       alert('로그인이 되어 있지 않습니다!');
+      if (title && body) {
+        const newPost = {
+          title: title,
+          body: body,
+          postId: postId,
+          userId: 'userId',
+
+          // CHECKLIST 수정한 부분 : nickName 추가 (이유 : 댓글에서 사용)
+          nickName: '젤리곰',
+          imgURL: null,
+          imgName: null,
+          date: new Date(),
+          tags: checkedTags.join()
+        };
+        setPosts((prev) => {
+          return [...posts, newPost];
+        });
+
+        const collectionRef = collection(db, 'posts');
+        await addDoc(collectionRef, newPost);
+        fetchData();
+        setTitle('');
+        setBody('');
+        closeModal();
+        alert('저장되었습니다!');
+      } else {
+        alert('제목과 내용을 입력해주세요!');
+      }
     }
   };
 

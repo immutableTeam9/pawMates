@@ -1,6 +1,6 @@
 import { firebaseSignOut, onUserStateChange } from '../firebase';
 import SignIn from './SignIn';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/modules/user';
@@ -12,6 +12,7 @@ import { initialSwitchOn } from '../redux/modules/initialState';
 function Header() {
   const initialState = useSelector((state) => state.initialState);
   const userState = useSelector((state) => state.user);
+  console.log(userState);
   const userStateBoolean = Boolean(Object.keys(userState).length);
 
   const modalState = useSelector((state) => state.modalState);
