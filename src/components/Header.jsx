@@ -10,7 +10,7 @@ import SignUp from './SignUp';
 import { initialSwitchOn } from '../redux/modules/initialState';
 import { Link } from 'react-router-dom';
 
-function Header() {
+function Header({ posts }) {
   const initialState = useSelector((state) => state.initialState);
   const userState = useSelector((state) => state.user);
   const userStateBoolean = Boolean(Object.keys(userState).length);
@@ -46,7 +46,9 @@ function Header() {
 
         {typeof userState.displayName === 'string' && (
           <>
-            <Link to={`/profile/${userState.uid}`}>{`${userState.displayName}님`} </Link>
+            <Link to={`/profile/${userState.uid}`} state={{ posts }}>
+              {`${userState.displayName}님`}{' '}
+            </Link>
             <button onClick={handelLogOut}>로그아웃</button>
           </>
         )}
