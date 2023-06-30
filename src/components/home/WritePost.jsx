@@ -55,18 +55,14 @@ const WritePost = ({ posts, setPosts, fetchData, closeModal }) => {
       }
     };
 
-    if (userState !== null) {
-      if (selectedFile) {
-        const imageRef = ref(storage, `${postId}/${selectedFile.name}`);
-        await uploadBytes(imageRef, selectedFile);
-        const downloadURL = await getDownloadURL(imageRef);
+    if (selectedFile) {
+      const imageRef = ref(storage, `${postId}/${selectedFile.name}`);
+      await uploadBytes(imageRef, selectedFile);
+      const downloadURL = await getDownloadURL(imageRef);
 
-        setNewPost(title, body, downloadURL, selectedFile);
-      } else {
-        setNewPost(title, body, null, null);
-      }
+      setNewPost(title, body, downloadURL, selectedFile);
     } else {
-      alert('로그인이 되어 있지 않습니다!');
+      setNewPost(title, body, null, null);
     }
   };
 
