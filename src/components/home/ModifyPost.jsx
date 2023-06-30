@@ -144,7 +144,7 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
         }
       });
     });
-    const imageRef = ref(storage, `${postId}/${imgName}`);
+    const imageRef = ref(storage, `${post.postId}/${post.imgName}`);
     await deleteObject(imageRef);
   };
   const preventEnter = (e) => {
