@@ -16,6 +16,7 @@ function DetailComments({ users }) {
   const userEmail = userState.email;
   const userId = userState.uid;
   const userImage = userState.photoURL;
+  const [verifiedUser, setVerifiedUser] = useState(false);
 
   const param = useParams();
 
@@ -99,6 +100,14 @@ function DetailComments({ users }) {
       return prev.filter((element) => element.id !== id);
     });
   };
+
+  const verifyUser = () => {
+    if (!Boolean(Object.keys(userState).length)) {
+      alert('로그인 후  댓글 작성이 가능합니다.');
+      setVerifiedUser(true);
+      return;
+    }
+  };
   return (
     <DetailCommentsWrapper>
       <div>comments list</div>
@@ -124,7 +133,15 @@ function DetailComments({ users }) {
       </CommentUl>
       <div>❤︎ 좋아요</div>
       <form onSubmit={onSubmit}>
-        <input type="text" name="comment" placeholder="댓글 달기..." value={comment} onChange={onChange} />
+        <input
+          type="text"
+          name="comment"
+          placeholder="댓글 달기..."
+          value={comment}
+          onChange={onChange}
+          disabled={verifiedUser}
+          onFocus={verifyUser}
+        />
         <button>게시</button>
       </form>
     </DetailCommentsWrapper>
