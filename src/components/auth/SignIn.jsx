@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { firebaseSignIn } from '../firebase';
+import { firebaseSignIn } from '../../firebase';
 import { useDispatch } from 'react-redux';
-import { signinModalInactive } from '../redux/modules/modalState';
-import { setUser } from '../redux/modules/user';
+import { signinModalInactive } from '../../redux/modules/modalState';
+import { setUser } from '../../redux/modules/user';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');

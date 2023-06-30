@@ -1,7 +1,5 @@
-import { collection, getDocs, query } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { db } from '../../firebase';
 
 const Search = ({ setPosts }) => {
   const [word, setWord] = useState('');

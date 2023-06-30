@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
-import { firebaseSignUp, onUserStateChange } from '../firebase';
+import { firebaseSignUp, onUserStateChange } from '../../firebase';
 import { useDispatch } from 'react-redux';
-import { signupModalInactive } from '../redux/modules/modalState';
-import { setUser } from '../redux/modules/user';
+import { signupModalInactive } from '../../redux/modules/modalState';
+import { setUser } from '../../redux/modules/user';
 
 export default function SignUp() {
   const [newUser, setNewUser] = useState({

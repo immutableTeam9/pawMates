@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { modifyProfile, onUserStateChange, storage } from '../firebase';
-import { setUser } from '../redux/modules/user';
+import { modifyProfile, onUserStateChange, storage } from '../../firebase';
+import { setUser } from '../../redux/modules/user';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { modifyProfileModalInactive } from '../redux/modules/modalState';
+import { modifyProfileModalInactive } from '../../redux/modules/modalState';
 
 export default function ModifyProfile() {
   const userState = useSelector((state) => state.user);

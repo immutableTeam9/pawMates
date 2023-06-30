@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import Modal from '../Modal';
+import React, { useState } from 'react';
+import Modal from '../common/Modal';
 import WritePost from './WritePost';
 
 const Write = ({ posts, setPosts, fetchData }) => {

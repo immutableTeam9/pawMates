@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
 import { useSelector } from 'react-redux';
 import ModifyPost from './ModifyPost';
-import Modal from '../Modal';
+import Modal from '../common/Modal';
 
 function DetailPost() {
   // controll state & sth
@@ -70,6 +70,7 @@ function DetailPost() {
       <div>
         <img
           src={post.imgURL}
+          alt={`${post.title} 이미지`}
           style={{
             width: '20%',
             height: '30%'
@@ -77,7 +78,7 @@ function DetailPost() {
         />
       </div>
       <UserInfoArea>
-        <UserImage src={post.userImage} alt="" />
+        <UserImage src={post.userImage} alt={`${post.nickName}`} />
         &nbsp;<span>{post.nickName}</span>
       </UserInfoArea>
       <div>

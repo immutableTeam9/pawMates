@@ -4,7 +4,7 @@ import PostList from '../components/home/PostList';
 import Write from '../components/home/Write';
 import { db } from '../firebase';
 import { collection, getDocs, query } from 'firebase/firestore';
-import Header from '../components/Header';
+import Header from '../components/common/Header';
 import Footer from '../components/home/Footer';
 
 const Home = () => {

@@ -1,13 +1,13 @@
-import { firebaseSignOut, onUserStateChange } from '../firebase';
-import SignIn from './SignIn';
-import { useEffect, useReducer, useState } from 'react';
+import { firebaseSignOut, onUserStateChange } from '../../firebase';
+import SignIn from '../auth/SignIn';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../redux/modules/user';
+import { setUser } from '../../redux/modules/user';
 import Modal from './Modal';
-import { signinModalActive, signupModalActive } from '../redux/modules/modalState';
-import SignUp from './SignUp';
-import { initialSwitchOn } from '../redux/modules/initialState';
+import { signinModalActive, signupModalActive } from '../../redux/modules/modalState';
+import SignUp from '../auth/SignUp';
+import { initialSwitchOn } from '../../redux/modules/initialState';
 import { Link } from 'react-router-dom';
 
 function Header({ posts }) {

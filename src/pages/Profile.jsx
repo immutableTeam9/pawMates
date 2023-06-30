@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostsByUser, onUserStateChange } from '../firebase';
+import { onUserStateChange } from '../firebase';
 import { setUser } from '../redux/modules/user';
-import ModifyProfile from '../components/ModifyProfile';
-import Modal from '../components/Modal';
+import ModifyProfile from '../components/porfile/ModifyProfile';
+import Modal from '../components/common/Modal';
 import { createPortal } from 'react-dom';
 import { modifyProfileModalActive } from '../redux/modules/modalState';
 import { Link } from 'react-router-dom';
