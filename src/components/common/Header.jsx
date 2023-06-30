@@ -46,9 +46,7 @@ function Header({ posts }) {
 
         {typeof userState.displayName === 'string' && (
           <>
-            <Link to={`/profile/${userState.uid}`} state={{ posts }}>
-              {`${userState.displayName}님`}{' '}
-            </Link>
+            <Link to={`/profile/${userState.uid}`}>{`${userState.displayName}님`} </Link>
             <button onClick={handelLogOut}>로그아웃</button>
           </>
         )}
