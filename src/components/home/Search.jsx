@@ -14,7 +14,11 @@ const Search = ({ posts, setPosts, fetchData }) => {
     if (word) {
       const searchWord = word.toLowerCase();
       const searchPost = fetchPosts.filter((post) => {
-        return post.title.toLowerCase().includes(searchWord) || post.body.toLowerCase().includes(searchWord);
+        return (
+          post.title.toLowerCase().includes(searchWord) ||
+          post.body.toLowerCase().includes(searchWord) ||
+          post.nickName.toLowerCase().includes(searchWord)
+        );
       });
       const searchTag = fetchPosts.filter((post) => {
         return typeof post.tags == 'string' && post.tags.toLowerCase().includes(searchWord);
@@ -24,7 +28,6 @@ const Search = ({ posts, setPosts, fetchData }) => {
       if (searchPost.length !== 0) {
         setPosts([...setSearchPost]);
         setWord('');
-
       } else {
         alert('검색 결과가 없습니다!');
       }
@@ -41,7 +44,6 @@ const Search = ({ posts, setPosts, fetchData }) => {
     } else if (word == false) {
       alert('검색어를 입력하세요!');
     }
-
   };
 
   const tags = useSelector((state) => state.tags);
