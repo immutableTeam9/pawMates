@@ -4,8 +4,8 @@ import { collection, deleteDoc, doc, getDocs, query } from 'firebase/firestore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
 import { useSelector } from 'react-redux';
-import Modal from './../Modal';
 import ModifyPost from './ModifyPost';
+import Modal from '../Modal';
 
 function DetailPost() {
   // controll state & sth
