@@ -18,7 +18,6 @@ const PostItem = ({ post, setPosts }) => {
     setIsOpen(false);
   };
 
-  //삭제하기 버튼에 권한확인 추가 했는데 필요없으면 안써도 돼요~~~!~!~!!
   const deletePost = async (userId) => {
     if (userState === null) {
       alert('권한이 없습니다!');
@@ -71,6 +70,7 @@ const PostItem = ({ post, setPosts }) => {
         </Modal>
       )}
       <button onClick={() => deletePost(post.userId)}>삭제</button>
+
       <button
         onClick={() => {
           navigate(`/detail/${post.id}`);
