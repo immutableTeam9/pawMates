@@ -1,5 +1,5 @@
 import { doc, updateDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { db, storage } from '../../firebase';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import { useSelector } from 'react-redux';
@@ -147,10 +147,14 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
     const imageRef = ref(storage, `${postId}/${imgName}`);
     await deleteObject(imageRef);
   };
-
+  const preventEnter = (e) => {
+    if (e.code === 'Enter') {
+      e.preventDefault();
+    }
+  };
   return (
     <div>
-      <form onSubmit={updatePost}>
+      <form onSubmit={updatePost} onKeyDown={preventEnter}>
         <div>
           <label>제목</label>
           <input
@@ -173,7 +177,9 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
           이미지 파일 올리기
           <input type="file" onChange={handleFileSelect} />
         </div>
-        <button onClick={deleteImg}>이미지 삭제하기</button>
+        <button type="button" onClick={deleteImg}>
+          이미지 삭제하기
+        </button>
         <div>
           <p>태그 선택하기</p>
           {checkedTags.map((checkedTag) => {

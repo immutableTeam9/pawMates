@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import shortid from 'shortid';
-import { auth, db, storage } from '../../firebase';
-import { addDoc, collection, doc } from 'firebase/firestore';
+import { db, storage } from '../../firebase';
+import { addDoc, collection } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Write = ({ posts, setPosts, fetchData }) => {
   // identification
   const userState = useSelector((state) => state.user);
-  const userNickName = userState.displayName;
-  const userEmail = userState.email;
-  const userId = userState.uid;
   const userImage = userState.photoURL;
 
   const [isOpen, setIsOpen] = useState(false);

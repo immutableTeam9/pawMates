@@ -1,16 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { firebaseSignUp, onUserStateChange } from '../firebase';
 import { useDispatch } from 'react-redux';
 import { signupModalInactive } from '../redux/modules/modalState';
 import { setUser } from '../redux/modules/user';
-import { initialSwitchOff } from '../redux/modules/initialState';
 
 export default function SignUp() {
   const [newUser, setNewUser] = useState({
     email: '',
     pwd: '',
     nickName: '',
-    // [ ] userImage 필요해서 기본값을 일단 설정했음. 해도 되는지 확인 필요
     userImage: 'https://cdn-icons-png.flaticon.com/512/552/552721.png'
   });
   const [petInfo, setPetInfo] = useState({

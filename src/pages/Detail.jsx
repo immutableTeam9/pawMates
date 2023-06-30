@@ -1,6 +1,3 @@
-import { collection, getDocs, query } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { db } from '../firebase';
 import DetailPost from '../components/detail/DetailPost';
 import DetailComments from '../components/detail/DetailComments';
 import { useNavigate } from 'react-router-dom';
