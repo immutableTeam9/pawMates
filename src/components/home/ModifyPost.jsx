@@ -7,7 +7,6 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
   const [title, setTitle] = useState(post.title);
   const [body, setBody] = useState(post.body);
 
-  // -------------------------수정하기 버튼 시작---------------------------
   const [selectedFile, setSelectedFile] = useState(null);
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files?.[0]);
@@ -72,7 +71,6 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
       }
     } else return;
   };
-  //---------------------------------수정하기 버튼 끝----------------------------------
 
   const deleteImg = async (event) => {
     event.preventDefault();

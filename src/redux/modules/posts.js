@@ -15,6 +15,10 @@ fetchData();
 
 const posts = (state = initialPosts, action) => {
   switch (action.type) {
+    case 'SEARCH_POST':
+      const initialPosts = [];
+      fetchData();
+      return [...initialPosts];
     default:
       return state;
   }

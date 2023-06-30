@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import ModifyPost from './ModifyPost';
-import { styled } from 'styled-components';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Modal from '../Modal';
 
 const PostItem = ({ post, setPosts }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const userState = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
     setIsOpen(true);
   };
-
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -35,7 +36,6 @@ const PostItem = ({ post, setPosts }) => {
     }
   };
 
-  const navigate = useNavigate();
   return (
     <div
       key={post.id}
@@ -60,20 +60,17 @@ const PostItem = ({ post, setPosts }) => {
       <p>{post.tags}</p>
       <button onClick={openModal}>수정</button>
       {isOpen && (
-        <StModalBox>
-          <StModalContents>
-            <ModifyPost
-              closeModal={closeModal}
-              post={post}
-              setPosts={setPosts}
-              postId={post.postId}
-              imgName={post.imgName}
-            ></ModifyPost>
-          </StModalContents>
-        </StModalBox>
+        <Modal>
+          <ModifyPost
+            closeModal={closeModal}
+            post={post}
+            setPosts={setPosts}
+            postId={post.postId}
+            imgName={post.imgName}
+          ></ModifyPost>
+        </Modal>
       )}
       <button onClick={() => deletePost(post.userId)}>삭제</button>
-
       <button
         onClick={() => {
           navigate(`/detail/${post.id}`);
@@ -86,23 +83,3 @@ const PostItem = ({ post, setPosts }) => {
 };
 
 export default PostItem;
-
-const StModalBox = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StModalContents = styled.div`
-  background-color: #fff;
-  padding: 20px;
-  width: 50%;
-  height: 50%;
-  border-radius: 12px;
-`;
