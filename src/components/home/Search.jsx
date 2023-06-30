@@ -1,16 +1,19 @@
+import { collection, getDocs, query } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { db } from '../../firebase';
 
 const Search = ({ setPosts }) => {
   const [word, setWord] = useState('');
 
+  const tags = useSelector((state) => state.tags);
   const fetchPosts = useSelector((state) => state.posts);
 
   const searchHandler = async (e, tag) => {
     e.preventDefault();
-
-    if (word) {
-      const searchWord = word.toLowerCase();
+    console.log(fetchPosts);
+    const searchFunc = (keyword) => {
+      const searchWord = keyword.toLowerCase();
       const searchPost = fetchPosts.filter((post) => {
         return (
           post.title.toLowerCase().includes(searchWord) ||
@@ -29,26 +32,17 @@ const Search = ({ setPosts }) => {
       } else {
         alert('검색 결과가 없습니다!');
       }
+    };
+
+    if (word) {
+      searchFunc(word);
     } else if (tag) {
-      const searchPost = fetchPosts.filter((post) => {
-        return (
-          post.title.toLowerCase().includes(tag) ||
-          post.body.toLowerCase().includes(tag) ||
-          post.nickName.toLowerCase().includes(tag)
-        );
-      });
-      const searchTag = fetchPosts.filter((post) => {
-        return typeof post.tags === 'string' && post.tags.toLowerCase().includes(tag);
-      });
-      searchPost.push(...searchTag);
-      const setSearchPost = new Set(searchPost);
-      setPosts([...setSearchPost]);
+      searchFunc(tag);
     } else if (word == false) {
       alert('검색어를 입력하세요!');
     }
   };
 
-  const tags = useSelector((state) => state.tags);
   const tagButtonHandler = (e, tag) => {
     const newtag = tag.replace(/#/g, '');
     searchHandler(e, newtag);

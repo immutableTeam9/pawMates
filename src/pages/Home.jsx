@@ -5,6 +5,7 @@ import Write from '../components/home/Write';
 import { db } from '../firebase';
 import { collection, getDocs, query } from 'firebase/firestore';
 import Header from '../components/Header';
+import Footer from '../components/home/Footer';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -25,18 +26,18 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <Header />
       <div>
         <h1>Home</h1>
-        <Search posts={posts} setPosts={setPosts} fetchData={fetchData}></Search>
+        <Search posts={posts} setPosts={setPosts} fetchData={fetchData} />
       </div>
       <main>
-        <Write posts={posts} setPosts={setPosts} fetchData={fetchData}></Write>
-        <PostList posts={posts} setPosts={setPosts}></PostList>
+        <Write posts={posts} setPosts={setPosts} fetchData={fetchData} />
+        <PostList posts={posts} setPosts={setPosts} />
       </main>
-      <footer>푸터푸터</footer>
-    </div>
+      <Footer />
+    </>
   );
 };
 

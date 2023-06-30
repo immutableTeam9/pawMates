@@ -8,6 +8,8 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
   const [title, setTitle] = useState(post.title);
   const [body, setBody] = useState(post.body);
 
+
+
   // tag 체크박스 checkedDefault 해줘야하고, checkedDefault되어있는 상황에서 변경시켜줘야하니까..
   // checkedTags에 store에서 가져온 tag랑 todo에 있는 tag를 이용해서 {tag, isHere(true, false)} 객체로 관리 ..하자 그러면 => checked={true, false}로 구분할 수 있..을거야
 
@@ -55,7 +57,7 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
     );
     // console.log(pickedCheckedTags);
   };
-  // -------------------------수정하기 버튼 시작---------------------------
+
   const [selectedFile, setSelectedFile] = useState(null);
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files?.[0]);
@@ -128,7 +130,6 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
       }
     } else return;
   };
-  //---------------------------------수정하기 버튼 끝----------------------------------
 
   const deleteImg = async (event) => {
     event.preventDefault();

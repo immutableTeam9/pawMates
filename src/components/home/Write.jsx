@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
-import shortid from 'shortid';
-import { db, storage } from '../../firebase';
-import { addDoc, collection } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { useSelector } from 'react-redux';
+import Modal from '../Modal';
+import WritePost from './WritePost';
 
 const Write = ({ posts, setPosts, fetchData }) => {
-  // identification
-  const userState = useSelector((state) => state.user);
-  const userImage = userState.photoURL;
-
   const [isOpen, setIsOpen] = useState(false);
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -159,77 +152,14 @@ const Write = ({ posts, setPosts, fetchData }) => {
     <div>
       <button onClick={openModal}>글 작성하기</button>
       {isOpen && (
-        <StModalBox>
-          <StModalContents>
-            <form onSubmit={addPost}>
-              <div>
-                <label>제목</label>
-                <input
-                  value={title}
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                  }}
-                />
-              </div>
-              <div>
-                <label>내용</label>
-                <input
-                  value={body}
-                  onChange={(e) => {
-                    setBody(e.target.value);
-                  }}
-                />
-              </div>
-              <div>
-                이미지 파일 올리기
-                <input type="file" onChange={handleFileSelect} />
-              </div>
-              <div>
-                <p>태그 선택하기</p>
-                {tags.map((tag) => {
-                  return (
-                    <label key={tag}>
-                      <input
-                        type="checkbox"
-                        name="tag"
-                        value={tag}
-                        onChange={(e) => checkedItemHandler(e.target.checked, e.target.value)}
-                      />
-                      <span>{tag}</span>
-                    </label>
-                  );
-                })}
-              </div>
-              <button>저장</button>
-              <button type="button" onClick={closeModal}>
-                닫기
-              </button>
-            </form>
-          </StModalContents>
-        </StModalBox>
+        <>
+          <Modal>
+            <WritePost posts={posts} setPosts={setPosts} fetchData={fetchData} closeModal={closeModal}></WritePost>
+          </Modal>
+        </>
       )}
     </div>
   );
 };
 
 export default Write;
-
-const StModalBox = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StModalContents = styled.div`
-  background-color: #fff;
-  padding: 20px;
-  width: 50%;
-  height: 50%;
-  border-radius: 12px;
-`;
