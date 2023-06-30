@@ -22,6 +22,7 @@ export default function SignUp() {
   const nickNameRef = useRef(null);
   const emailRef = useRef(null);
   const pwdRef = useRef(null);
+  // const userRef = useRef(null);
 
   const onChange = (e) => {
     const {
