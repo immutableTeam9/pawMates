@@ -10,7 +10,7 @@ const PostList = ({ posts, setPosts }) => {
           return b.date - a.date;
         })
         .map((post) => {
-          return <PostItem key={post.id} post={post} setPosts={setPosts}></PostItem>;
+          return <PostItem key={post.id} post={post}></PostItem>;
         })}
     </div>
   );
