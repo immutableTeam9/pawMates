@@ -9,8 +9,10 @@ import { signinModalActive, signupModalActive } from '../../redux/modules/modalS
 import SignUp from '../auth/SignUp';
 import { initialSwitchOn } from '../../redux/modules/initialState';
 import { Link } from 'react-router-dom';
+import { PiPawPrintFill } from 'react-icons/pi';
+import styled from 'styled-components';
 
-function Header({ posts }) {
+function Header() {
   const initialState = useSelector((state) => state.initialState);
   const userState = useSelector((state) => state.user);
   const userStateBoolean = Boolean(Object.keys(userState).length);
@@ -36,39 +38,126 @@ function Header({ posts }) {
 
   return (
     <>
-      <header>
-        {!userStateBoolean && (
-          <>
-            <button onClick={() => dispatch(signupModalActive())}>회원가입</button>{' '}
-            <button onClick={() => dispatch(signinModalActive())}>로그인</button>
-          </>
-        )}
+      <StHeader>
+        <div className="inner">
+          <h1>
+            <Link to="/">
+              <PiPawPrintFill />
+              PAW MATE
+            </Link>
+          </h1>
+          <nav>
+            {!userStateBoolean && (
+              <>
+                <button className="join-login-btn" onClick={() => dispatch(signupModalActive())}>
+                  회원가입
+                </button>{' '}
+                <button className="join-login-btn" onClick={() => dispatch(signinModalActive())}>
+                  로그인
+                </button>
+              </>
+            )}
 
-        {typeof userState.displayName === 'string' && (
-          <>
-            <Link to={`/profile/${userState.uid}`}>{`${userState.displayName}님`} </Link>
-            <button onClick={handelLogOut}>로그아웃</button>
-          </>
-        )}
+            {typeof userState.displayName === 'string' && (
+              <>
+                <span className="user-name">{`${userState.displayName}님`} </span>
+                <Link className="btn-mypage" to={`/profile/${userState.uid}`}>
+                  MY PAGE
+                </Link>{' '}
+                <Link onClick={handelLogOut} className="btn-logout">
+                  LOGOUT
+                </Link>
+              </>
+            )}
+          </nav>
 
-        {modalState.signUpModalState &&
-          createPortal(
-            <Modal>
-              <SignUp />
-            </Modal>,
-            document.body
-          )}
+          {modalState.signUpModalState &&
+            createPortal(
+              <Modal>
+                <SignUp />
+              </Modal>,
+              document.body
+            )}
 
-        {modalState.signInModalState &&
-          createPortal(
-            <Modal>
-              <SignIn />
-            </Modal>,
-            document.body
-          )}
-      </header>
+          {modalState.signInModalState &&
+            createPortal(
+              <Modal>
+                <SignIn />
+              </Modal>,
+              document.body
+            )}
+        </div>
+      </StHeader>
     </>
   );
 }
 
 export default Header;
+
+const StHeader = styled.header`
+  box-shadow: 0px 0px 9px 3px #00000014;
+
+  & .inner {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    min-width: 360px;
+    height: 100px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  & nav {
+    position: absolute;
+    right: 16px;
+  }
+  & h1 > a {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'EF_jejudoldam';
+    color: #239cff;
+
+    & svg {
+      transform: rotate(340deg);
+    }
+  }
+  & a {
+    text-decoration: none;
+  }
+  & button {
+    cursor: pointer;
+  }
+
+  & .user-name {
+    color: #239cff;
+    font-weight: 700;
+    margin-right: 16px;
+  }
+  & .btn-mypage {
+    margin-right: 10px;
+    letter-spacing: -1px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #777;
+    text-decoration: underline;
+  }
+  & .btn-logout {
+    border: 0;
+    background: transparent;
+    color: #777;
+    letter-spacing: -1px;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: underline;
+  }
+  & .join-login-btn {
+    border: 0;
+    background: transparent;
+    font-size: 15px;
+    font-weight: 700;
+    color: #239cff;
+  }
+`;
