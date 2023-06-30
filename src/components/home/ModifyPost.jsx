@@ -1,12 +1,34 @@
 import { doc, updateDoc } from 'firebase/firestore';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { db, storage } from '../../firebase';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
+import { useSelector } from 'react-redux';
 
 const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
   const [title, setTitle] = useState(post.title);
   const [body, setBody] = useState(post.body);
 
+  // tags
+  useEffect(() => {
+    setCheckedTags([]);
+  }, []);
+  const tags = useSelector((state) => state.tags);
+  const [checkedTags, setCheckedTags] = useState([]);
+
+  const checkedItemHandler = (checked, value) => {
+    if (checked) {
+      if (checkedTags.includes(value)) {
+        return;
+      } else {
+        // checkedTags.push(value);
+        setCheckedTags([...checkedTags, value]);
+      }
+    } else {
+      const removedTags = checkedTags.filter((tag) => tag !== value);
+      // checkedTags = [...removedTags];
+      setCheckedTags([...removedTags]);
+    }
+  };
   // -------------------------수정하기 버튼 시작---------------------------
   const [selectedFile, setSelectedFile] = useState(null);
   const handleFileSelect = (event) => {
@@ -118,6 +140,22 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
           <input type="file" onChange={handleFileSelect} />
         </div>
         <button onClick={deleteImg}>이미지 삭제하기</button>
+        <div>
+          <p>태그 선택하기</p>
+          {tags.map((tag) => {
+            return (
+              <label key={tag}>
+                <input
+                  type="checkbox"
+                  name="tag"
+                  value={tag}
+                  onChange={(e) => checkedItemHandler(e.target.checked, e.target.value)}
+                />
+                <span>{tag}</span>
+              </label>
+            );
+          })}
+        </div>
         <button>저장</button>
         <button type="button" onClick={closeModal}>
           닫기

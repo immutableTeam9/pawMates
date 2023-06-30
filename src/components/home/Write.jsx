@@ -59,7 +59,7 @@ const Write = ({ posts, setPosts, fetchData }) => {
             imgName: selectedFile.name,
             date: new Date(),
             tags: checkedTags.join(),
-            userImage: null
+            userImage
           };
           setPosts((prev) => {
             return [...posts, newPost];
@@ -88,7 +88,7 @@ const Write = ({ posts, setPosts, fetchData }) => {
             imgName: null,
             date: new Date(),
             tags: checkedTags.join(),
-            userImage: null
+            userImage
           };
           setPosts((prev) => {
             return [...posts, newPost];

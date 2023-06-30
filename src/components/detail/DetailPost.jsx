@@ -5,8 +5,15 @@ import { collection, deleteDoc, doc, getDocs, query } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
+import { useSelector } from 'react-redux';
 
 function DetailPost() {
+  const userState = useSelector((state) => state.user);
+  const userNickName = userState.displayName;
+  const userEmail = userState.email;
+  const userId = userState.uid;
+  const userImage = userState.photoURL;
+
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
@@ -42,7 +49,7 @@ function DetailPost() {
   const post = posts.filter((post) => {
     return post.id === params.id;
   })[0];
-
+  console.log('this is post', post);
   const openModal = () => {
     setIsOpen(true);
   };
@@ -77,8 +84,7 @@ function DetailPost() {
         />
       </div>
       <UserInfoArea>
-        {/* [ ] 이거는 post에 담긴 postWriterImage 정보 가져와서 넣기 */}
-        {/* <UserImage src={writerImage} alt="" /> */}
+        <UserImage src={post.userImage} alt="" />
         &nbsp;<span>{post.nickName}</span>
       </UserInfoArea>
       <div>
@@ -86,9 +92,7 @@ function DetailPost() {
         <p>{post.body}</p>
         <p>{post.tags}</p>
       </div>
-
-      {/* [ ] 메인에서 수정, 삭제 가져오기 */}
-      <button onClick={openModal}>수정</button>
+      {userId === post.userId && <button onClick={openModal}>수정</button>}
       {isOpen && (
         <StModalBox>
           <StModalContents>
@@ -96,7 +100,7 @@ function DetailPost() {
           </StModalContents>
         </StModalBox>
       )}
-      <button onClick={deletePost}>삭제</button>
+      {userId === post.userId && <button onClick={deletePost}>삭제</button>}
     </DetailPostWrapper>
   );
 }

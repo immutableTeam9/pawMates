@@ -13,6 +13,7 @@ const PostList = ({ posts, setPosts }) => {
           return b.date - a.date;
         })
         .map((post) => {
+          console.log('이건 포스트임', post);
           return <PostItem key={post.id} post={post} setPosts={setPosts}></PostItem>;
         })}
     </div>
