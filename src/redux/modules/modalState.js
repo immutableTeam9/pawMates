@@ -2,6 +2,8 @@ const SIGN_UP_MODAL_ACTIVE = 'signUp/MODAL_ACTIVE';
 const SIGN_UP_MODAL_INACTIVE = 'signUp/MODAL_INACTIVE';
 const SIGN_IN_MODAL_ACTIVE = 'signIn/MODAL_ACTIVE';
 const SIGN_IN_MODAL_INACTIVE = 'signIn/MODAL_INACTIVE';
+const MODIFY_PROFILE_MODAL_ACTIVE = 'modifyProfile/MODAL_ACTIVE';
+const MODIFY_PROFILE_MODAL_INACTIVE = 'modifyProfile/MODAL_INACTIVE';
 
 export const signupModalActive = () => {
   return { type: SIGN_UP_MODAL_ACTIVE };
@@ -15,10 +17,17 @@ export const signinModalActive = () => {
 export const signinModalInactive = () => {
   return { type: SIGN_IN_MODAL_INACTIVE };
 };
+export const modifyProfileModalActive = () => {
+  return { type: MODIFY_PROFILE_MODAL_ACTIVE };
+};
+export const modifyProfileModalInactive = () => {
+  return { type: MODIFY_PROFILE_MODAL_INACTIVE };
+};
 
 const initialState = {
   signUpModalState: false,
-  signInModalState: false
+  signInModalState: false,
+  modifyProfileModalState: false
 };
 export default function modalState(state = initialState, action) {
   switch (action.type) {
@@ -30,6 +39,10 @@ export default function modalState(state = initialState, action) {
       return { ...state, signInModalState: true };
     case SIGN_IN_MODAL_INACTIVE:
       return { ...state, signInModalState: false };
+    case MODIFY_PROFILE_MODAL_ACTIVE:
+      return { ...state, modifyProfileModalState: true };
+    case MODIFY_PROFILE_MODAL_INACTIVE:
+      return { ...state, modifyProfileModalState: false };
     default:
       return state;
   }

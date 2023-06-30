@@ -11,9 +11,8 @@ import {
   signOut,
   updateProfile
 } from 'firebase/auth';
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { addDoc, collection, getFirestore, query, where } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -32,10 +31,10 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
-export async function firebaseSignUp(email, pwd, nickName, petInfo) {
+export async function firebaseSignUp(email, pwd, nickName, userImage, petInfo) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, pwd);
-    await updateProfile(auth.currentUser, { displayName: nickName });
+    await updateProfile(auth.currentUser, { displayName: nickName, photoURL: userImage });
     await savePetInfo(petInfo, userCredential.user.uid);
   } catch (error) {
     console.error(error);
@@ -66,5 +65,14 @@ export function onUserStateChange(callback) {
   });
 }
 
-export default app;
+export async function modifyProfile(nickName, userImage) {
+  await updateProfile(auth.currentUser, { displayName: nickName, photoURL: userImage });
+}
 
+export function getPostsByUser(userId) {
+  const postsRef = collection(db, 'posts');
+  const q = query(postsRef, where('userId', '==', 'userId'));
+  return q;
+}
+
+export default app;

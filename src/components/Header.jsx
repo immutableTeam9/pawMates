@@ -8,6 +8,7 @@ import Modal from './Modal';
 import { signinModalActive, signupModalActive } from '../redux/modules/modalState';
 import SignUp from './SignUp';
 import { initialSwitchOn } from '../redux/modules/initialState';
+import { Link } from 'react-router-dom';
 
 function Header() {
   const initialState = useSelector((state) => state.initialState);
@@ -45,7 +46,8 @@ function Header() {
 
         {typeof userState.displayName === 'string' && (
           <>
-            {`${userState.displayName}님`} <button onClick={handelLogOut}>로그아웃</button>
+            <Link to={`/profile/${userState.uid}`}>{`${userState.displayName}님`} </Link>
+            <button onClick={handelLogOut}>로그아웃</button>
           </>
         )}
 

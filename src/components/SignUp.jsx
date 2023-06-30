@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { firebaseSignUp, onUserStateChange } from '../firebase';
 import { useDispatch } from 'react-redux';
 import { signupModalInactive } from '../redux/modules/modalState';
 import { setUser } from '../redux/modules/user';
-import { initialSwitchOff } from '../redux/modules/initialState';
 
 export default function SignUp() {
   const [newUser, setNewUser] = useState({
     email: '',
     pwd: '',
-    nickName: ''
+    nickName: '',
+    userImage: 'https://cdn-icons-png.flaticon.com/512/552/552721.png'
   });
   const [petInfo, setPetInfo] = useState({
     ownerId: '',
@@ -18,7 +18,7 @@ export default function SignUp() {
     age: '',
     gender: ''
   });
-  const { email, pwd, nickName } = newUser;
+  const { email, pwd, nickName, userImage } = newUser;
   const nickNameRef = useRef(null);
   const emailRef = useRef(null);
   const pwdRef = useRef(null);
@@ -70,12 +70,13 @@ export default function SignUp() {
   const signUp = async (e) => {
     e.preventDefault();
     if (validationCheck()) {
-      await firebaseSignUp(email, pwd, nickName, petInfo) //
-        .then(dispatch(signupModalInactive()));
-
-      onUserStateChange((user) => {
-        dispatch(setUser(user));
-      });
+      await firebaseSignUp(email, pwd, nickName, userImage, petInfo) //
+        .then(() => {
+          onUserStateChange((user) => {
+            dispatch(setUser(user));
+            dispatch(signupModalInactive());
+          });
+        });
     }
   };
 
