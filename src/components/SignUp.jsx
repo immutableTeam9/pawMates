@@ -25,7 +25,6 @@ export default function SignUp() {
   const emailRef = useRef(null);
   const pwdRef = useRef(null);
   // const userRef = useRef(null);
-  console.log('signUp에서 image들어오나 확인', userImage);
 
   const onChange = (e) => {
     const {

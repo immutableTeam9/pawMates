@@ -13,7 +13,6 @@ const Write = ({ posts, setPosts, fetchData }) => {
   const userEmail = userState.email;
   const userId = userState.uid;
   const userImage = userState.photoURL;
-  console.log('디테일', userState);
 
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
@@ -48,7 +47,6 @@ const Write = ({ posts, setPosts, fetchData }) => {
         const downloadURL = await getDownloadURL(imageRef);
 
         if (title && body) {
-          console.log(typeof title);
           const newPost = {
             title: title,
             body: body,

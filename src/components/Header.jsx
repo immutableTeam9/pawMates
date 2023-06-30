@@ -12,7 +12,6 @@ import { initialSwitchOn } from '../redux/modules/initialState';
 function Header() {
   const initialState = useSelector((state) => state.initialState);
   const userState = useSelector((state) => state.user);
-  console.log(userState);
   const userStateBoolean = Boolean(Object.keys(userState).length);
 
   const modalState = useSelector((state) => state.modalState);

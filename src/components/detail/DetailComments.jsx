@@ -16,7 +16,6 @@ function DetailComments({ users }) {
   const userEmail = userState.email;
   const userId = userState.uid;
   const userImage = userState.photoURL;
-  console.log('디테일', userState);
 
   const param = useParams();
 
@@ -40,15 +39,12 @@ function DetailComments({ users }) {
       setComments(initialComments);
 
       setIsLoading(false);
-      console.log('한번 더 실행!');
     };
     fetchData();
-    console.log('이건됨');
   }, [addComment]);
   if (isLoading) {
     return <div>is Loading...</div>;
   }
-  console.log('comments', comments);
   const filteredComments = comments.filter((comment) => {
     return comment.postDBId === params.id;
   });
@@ -61,10 +57,6 @@ function DetailComments({ users }) {
   };
   const getToday = () => {
     const date = new Date();
-    console.log(date);
-    console.log(date.getFullYear());
-    console.log(date.getMonth());
-    console.log(date.getDate());
     const year = date.getFullYear();
     const month = ('0' + (1 + date.getMonth())).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);

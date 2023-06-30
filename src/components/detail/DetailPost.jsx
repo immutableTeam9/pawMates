@@ -49,7 +49,6 @@ function DetailPost() {
   const post = posts.filter((post) => {
     return post.id === params.id;
   })[0];
-  console.log('this is post', post);
   const openModal = () => {
     setIsOpen(true);
   };
