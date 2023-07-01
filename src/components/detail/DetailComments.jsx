@@ -151,10 +151,15 @@ function DetailComments({ users }) {
 export default DetailComments;
 
 const DetailCommentsWrapper = styled.div`
+  box-sizing: border-box;
+  width: 50%;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
   padding: 20px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const CommentUl = styled.ul`
