@@ -23,6 +23,7 @@ const StBackdrop = styled.div`
 
 const StModalContent = styled.div`
   position: relative;
+
   width: 80%;
   max-width: 500px;
   padding: 2rem 1.5rem;

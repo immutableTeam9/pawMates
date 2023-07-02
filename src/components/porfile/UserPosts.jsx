@@ -3,6 +3,7 @@ import PostItem from '../home/PostItem';
 import { useParams } from 'react-router-dom';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { StPostContainer } from '../home/PostList';
 
 const UserPosts = () => {
   const { id } = useParams();
@@ -31,12 +32,14 @@ const UserPosts = () => {
     <>
       <div>
         <h2>작성한 게시물</h2>
-        {posts &&
-          posts
+
+        <StPostContainer>
+          {posts
             .filter((post) => post.userId === id)
             .map((post) => {
               return <PostItem key={post.id} post={post}></PostItem>;
             })}
+        </StPostContainer>
       </div>
     </>
   );
