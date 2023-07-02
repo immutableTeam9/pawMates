@@ -27,6 +27,7 @@ function Header() {
         dispatch(setUser(user));
         dispatch(initialSwitchOn());
       } else {
+        dispatch(setUser(user));
         firebaseSignOut();
         navigate('/');
         dispatch(initialSwitchOn());
@@ -38,6 +39,7 @@ function Header() {
     e.preventDefault();
     firebaseSignOut();
     navigate('/');
+    console.log(userState);
   };
 
   if (!initialState) {
