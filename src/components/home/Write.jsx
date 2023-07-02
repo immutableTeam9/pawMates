@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from '../common/Modal';
 import WritePost from './WritePost';
 import { useSelector } from 'react-redux';
+import { keyframes, styled } from 'styled-components';
 
 const Write = ({ posts, setPosts, fetchData }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,8 +24,10 @@ const Write = ({ posts, setPosts, fetchData }) => {
     }
   };
   return (
-    <div>
-      <button onClick={writeButtonHandler}>글 작성하기</button>
+    <div className="write-btn">
+      <StWriteBtn onClick={writeButtonHandler} isOpen={isOpen}>
+        글쓰기
+      </StWriteBtn>
       {isOpen && (
         <>
           <Modal>
@@ -37,3 +40,38 @@ const Write = ({ posts, setPosts, fetchData }) => {
 };
 
 export default Write;
+
+const fadeIn = keyframes`
+0% {
+  opacity: 0;
+}
+100% {
+  opacity: 1;
+}
+`;
+const fadeOut = keyframes`
+0% {
+  opacity: 0;
+}
+100% {
+  opacity: 1;
+}
+`;
+
+const StWriteBtn = styled.button`
+  cursor: pointer;
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background-color: #239cff;
+  color: white;
+  margin: 10px;
+  transition: 0.3s ease-out;
+  font-size: 22px;
+  font-weight: 400;
+
+  &:hover {
+    background-color: #277bc0;
+  }
+`;
