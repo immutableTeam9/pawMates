@@ -8,7 +8,7 @@ import Modal from './Modal';
 import { signinModalActive, signupModalActive } from '../../redux/modules/modalState';
 import SignUp from '../auth/SignUp';
 import { initialSwitchOn } from '../../redux/modules/initialState';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PiPawPrintFill } from 'react-icons/pi';
 import styled from 'styled-components';
 
@@ -16,20 +16,28 @@ function Header() {
   const initialState = useSelector((state) => state.initialState);
   const userState = useSelector((state) => state.user);
   const userStateBoolean = Boolean(Object.keys(userState).length);
+  const navigate = useNavigate();
 
   const modalState = useSelector((state) => state.modalState);
   const dispatch = useDispatch();
 
   useEffect(() => {
     onUserStateChange((user) => {
-      dispatch(setUser(user));
-      dispatch(initialSwitchOn());
+      if (user) {
+        dispatch(setUser(user));
+        dispatch(initialSwitchOn());
+      } else {
+        firebaseSignOut();
+        navigate('/');
+        dispatch(initialSwitchOn());
+      }
     });
   }, []);
 
   const handelLogOut = (e) => {
     e.preventDefault();
     firebaseSignOut();
+    navigate('/');
   };
 
   if (!initialState) {
@@ -103,7 +111,7 @@ const StHeader = styled.header`
     justify-content: center;
     align-items: center;
     max-width: 1200px;
-    min-width: 360px;
+    min-width: 992px;
     height: 100px;
     margin: 0 auto;
     padding: 0 16px;

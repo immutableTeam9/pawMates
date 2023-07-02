@@ -49,7 +49,7 @@ export async function firebaseSignIn(email, pwd) {
   try {
     return await signInWithEmailAndPassword(auth, email, pwd);
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 }
 

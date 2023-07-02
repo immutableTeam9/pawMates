@@ -3,6 +3,7 @@ import { firebaseSignUp, onUserStateChange } from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { signupModalInactive } from '../../redux/modules/modalState';
 import { setUser } from '../../redux/modules/user';
+import { styled } from 'styled-components';
 
 export default function SignUp() {
   const [newUser, setNewUser] = useState({
@@ -83,28 +84,28 @@ export default function SignUp() {
 
   return (
     <div className="App">
-      <h2>회원가입 페이지</h2>
+      <h3>회원가입 페이지</h3>
       <form onSubmit={signUp}>
         <div>
-          <div>
+          <div className="input-box">
             <span>*</span>
             <label>닉네임 : </label>
             <input type="text" value={nickName} name="nickName" onChange={onChange} ref={nickNameRef}></input>
           </div>
-          <div>
+          <div className="input-box">
             <span>*</span>
             <label>이메일 : </label>
             <input type="email" value={email} name="email" onChange={onChange} ref={emailRef}></input>
           </div>
-          <div>
+          <div className="input-box">
             <span>*</span>
             <label>비밀번호 : </label>
             <input type="password" value={pwd} name="pwd" onChange={onChange} ref={pwdRef}></input>
           </div>
         </div>
-        <div>
-          <p>반려동물 정보</p>
-          <div>
+        <StPetInfoBox>
+          <h4>반려동물 정보</h4>
+          <div className="input-box">
             <label>종류 : </label>
             <select name="petType" onChange={onChange}>
               <option value="">선택해주세요</option>
@@ -113,15 +114,15 @@ export default function SignUp() {
               <option value="etc">기타</option>
             </select>
           </div>
-          <div>
+          <div className="input-box">
             <label>이름 : </label>
             <input type="text" value={petInfo.name} name="petName" onChange={onChange}></input>
           </div>
-          <div>
+          <div className="input-box">
             <label>나이 : </label>
             <input type="text" value={petInfo.age} name="petAge" onChange={onChange}></input>
           </div>
-          <div>
+          <div className="input-box">
             <label>성별 : </label>
             <select name="petGender" onChange={onChange}>
               <option value="">선택해주세요</option>
@@ -129,12 +130,24 @@ export default function SignUp() {
               <option value="male">남자아이</option>
             </select>
           </div>
+        </StPetInfoBox>
+        <div className="button-box">
+          <button className="btn-cancel" type="button" onClick={() => dispatch(signupModalInactive())}>
+            닫기
+          </button>
+          <button className="btn-success">회원가입</button>
         </div>
-        <button>회원가입</button>
-        <button type="button" onClick={() => dispatch(signupModalInactive())}>
-          닫기
-        </button>
       </form>
     </div>
   );
 }
+
+const StPetInfoBox = styled.div`
+  margin-top: 2rem;
+  border-top: 1px solid #ddd;
+  & h4 {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+`;
