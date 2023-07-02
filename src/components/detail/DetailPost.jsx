@@ -8,6 +8,7 @@ import ModifyPost from './ModifyPost';
 import { StButton } from './StyleButton';
 import { RiMoreFill } from 'react-icons/ri';
 import ModalForDetail from '../common/ModalForDetail';
+import { RiHeart3Line } from 'react-icons/ri';
 
 function DetailPost() {
   // controll state & sth
@@ -125,6 +126,10 @@ function DetailPost() {
       </StMostContent>
 
       <StTagArea>{post.tags.replaceAll(',', ' ')}</StTagArea>
+      {/* <StLike>
+        <RiHeart3Line style={{ fontSize: '25px' }} />
+        <span>좋아요</span>
+      </StLike> */}
     </DetailPostWrapper>
   );
 }
@@ -207,6 +212,15 @@ const StTagArea = styled.p`
   justify-self: flex-end;
 `;
 const StScrollFam = styled.div`
-  height: 475px;
+  height: 449px;
   overflow: auto;
 `;
+
+// const StLike = styled.div`
+//   padding: 10px 0;
+//   border-top: 1px solid #d2d2d2;
+//   border-bottom: 1px solid #d2d2d2;
+//   display: flex;
+//   align-items: center;
+//   gap: 10px;
+// `;
