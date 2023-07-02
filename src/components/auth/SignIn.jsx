@@ -20,8 +20,12 @@ export default function SignIn() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     firebaseSignIn(email, pwd).then((userImpl) => {
-      dispatch(setUser(userImpl.user));
-      dispatch(signinModalInactive());
+      try {
+        dispatch(setUser(userImpl.user));
+        dispatch(signinModalInactive());
+      } catch (error) {
+        console.log(error);
+      }
     });
   };
   return (
