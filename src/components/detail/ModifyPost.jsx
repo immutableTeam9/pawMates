@@ -3,10 +3,16 @@ import React, { useState } from 'react';
 import { db, storage } from '../../firebase';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import { useSelector } from 'react-redux';
+import { styled } from 'styled-components';
+import { RiImage2Line } from 'react-icons/ri';
+import { StButton } from './StyleButton';
 
 const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
   const [title, setTitle] = useState(post.title);
   const [body, setBody] = useState(post.body);
+  const [changed, setChanged] = useState(false);
+
+  console.log('imgName', imgName);
 
   // tags
   const tags = useSelector((state) => state.tags);
@@ -45,6 +51,7 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files?.[0]);
+    setChanged(true);
   };
   const modifyUploadedImg = async (postRef) => {
     const imageRef = ref(storage, `${post.postId}/${selectedFile.name}`);
@@ -134,62 +141,178 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
 
   // form tag enter 불필요한 제출 방지
   const preventEnter = (e) => {
-    if (e.code === 'Enter') {
+    if (e.code === 'Enter' && e.target.tagName !== 'TEXTAREA') {
       e.preventDefault();
     }
   };
+
+  //form tag textarea는 enter event 열어두기
+  // const notreventEnter = (e) => {
+  //   if (e.code === 'Enter'&& e.target.tagName !== 'TEXTAREA' ) {
+  //     e.preventDefault();
+  //   }
+  // };
+
   return (
     <div>
-      <form onSubmit={updatePost} onKeyDown={preventEnter}>
-        <div>
-          <label>제목</label>
-          <input
-            defaultValue={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-          />
-        </div>
-        <div>
-          <label>내용</label>
-          <input
-            defaultValue={body}
-            onChange={(e) => {
-              setBody(e.target.value);
-            }}
-          />
-        </div>
-        <div>
-          이미지 파일 올리기
-          <input type="file" onChange={handleFileSelect} />
-        </div>
+      {console.log('pickedCheckedTags=>', pickedCheckedTags)}
+      <StFormTitle>게시물 수정하기</StFormTitle>
+      <hr />
+      <StForm onSubmit={updatePost} onKeyDown={preventEnter}>
+        <StImageWrapper>
+          <label htmlFor="input_file">
+            <RiImage2Line
+              style={{ fontSize: '20px', width: '30px', height: '30px', fontWeight: 700, cursor: 'pointer' }}
+            />
+          </label>
+          <input type="file" id="input_file" onChange={handleFileSelect} style={{ display: 'none' }} />
+          <span style={{ lineHeight: '30px' }}>{changed ? selectedFile.name : imgName}</span>
+        </StImageWrapper>
+        <StHr />
         <button type="button" onClick={deleteImg}>
           이미지 삭제하기
         </button>
-        <div>
-          <p>태그 선택하기</p>
+        <StInput
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+          placeholder="제목을 입력하세요"
+        />
+        <StHr />
+        <StTextarea
+          value={body}
+          onChange={(e) => {
+            setBody(e.target.value);
+          }}
+          placeholder="내용을 입력하세요"
+        />
+        <StHr />
+
+        <StHashtags>
           {checkedTags.map((checkedTag) => {
             return (
               <label key={checkedTag.tag}>
-                <input
+                <StHashtag
                   type="checkbox"
                   name="tag"
+                  id={checkedTag.tag}
                   value={checkedTag.tag}
                   checked={checkedTag.isHere}
                   onChange={() => checkedItemHandler(checkedTag.tag)}
                 />
-                <span>{checkedTag.tag}</span>
+                <StHashtagLabel htmlFor={checkedTag.tag} pickedCheckedTags={pickedCheckedTags}>
+                  {checkedTag.tag}
+                </StHashtagLabel>
               </label>
             );
           })}
-        </div>
-        <button>저장</button>
-        <button type="button" onClick={closeModal}>
-          닫기
-        </button>
-      </form>
+        </StHashtags>
+        <StFormButtons>
+          <StButton action={'저장'}>저장</StButton>
+          <StButton action={'닫기'} type="button" onClick={closeModal}>
+            닫기
+          </StButton>
+        </StFormButtons>
+      </StForm>
     </div>
   );
 };
 
 export default ModifyPost;
+
+const StFormTitle = styled.h3`
+  margin: 0px;
+  text-align: center;
+`;
+
+const StForm = styled.form`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px 0px;
+`;
+
+const StInput = styled.input`
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 15px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+`;
+
+const StTextarea = styled.textarea`
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 15px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  height: 150px;
+  resize: none;
+`;
+
+const StHr = styled.hr`
+  width: 95%;
+  border: 0;
+  height: 1px;
+  background-color: #d2d2d2;
+  margin: 0;
+`;
+
+const StHashtags = styled.div`
+  margin: 10px 0px 30px;
+  display: flex;
+  flex-direction: row;
+  gap: 0 20px;
+`;
+
+const StFormButtons = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const StHashtag = styled.input`
+  appearance: none;
+`;
+
+const StHashtagLabel = styled.label`
+  cursor: pointer;
+  font-weight: 500;
+  color: ${({ htmlFor, pickedCheckedTags }) => {
+    return pickedCheckedTags.includes(htmlFor) ? '#fff' : '#777';
+  }};
+  background-color: ${({ htmlFor, pickedCheckedTags }) => {
+    if (!pickedCheckedTags.includes(htmlFor)) {
+      return '#ffffff';
+    }
+    if (pickedCheckedTags.includes(htmlFor)) {
+      switch (htmlFor) {
+        case '#강아지':
+          return '#FFB6C1';
+        case '#고양이':
+          return '#87CEEB';
+        case '#간식':
+          return '#FFE0A3';
+        case '#음식':
+          return '#FFCC99';
+        case '#병원':
+          return '#AED6F1';
+        default:
+          return '#ffffff';
+      }
+    }
+  }};
+  padding: 5px;
+  border-radius: 8px;
+`;
+
+const StImageWrapper = styled.div`
+  padding: 0 15px;
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+`;

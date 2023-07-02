@@ -16,21 +16,22 @@ export default Detail;
 
 const StDetailWrapper = styled.div`
   box-sizing: border-box;
-  width: 1200px;
   max-width: 1200px;
-  min-width: 360px;
-  /* margin: 0 auto; */
-
+  min-width: 992px;
   display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 8px;
+  border: 1px solid #d2d2d2;
+
+  /* display: flex;
   @media screen and (max-width: 768px) {
     flex-direction: column;
-  }
+  } */
 `;
 
 const DetailLayout = styled.div`
   box-sizing: border-box;
   width: 100%;
-  display: flex;
-  justify-content: center;
   padding: 20px 40px;
 `;

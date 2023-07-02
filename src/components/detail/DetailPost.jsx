@@ -6,6 +6,8 @@ import { db } from '../../firebase';
 import { useSelector } from 'react-redux';
 import ModifyPost from './ModifyPost';
 import Modal from '../common/Modal';
+import { StButton } from './StyleButton';
+import { RiMoreFill } from 'react-icons/ri';
 
 function DetailPost() {
   // controll state & sth
@@ -14,6 +16,7 @@ function DetailPost() {
   const [isOpen, setIsOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isOpenPostUserBtn, setIsOpenPostUserBtn] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
 
@@ -51,7 +54,13 @@ function DetailPost() {
   };
 
   const closeModal = () => {
+    setIsOpenPostUserBtn(!isOpenPostUserBtn);
     setIsOpen(false);
+  };
+
+  // toggle user button
+  const toggleUserBtn = () => {
+    setIsOpenPostUserBtn(!isOpenPostUserBtn);
   };
 
   // delete data from firebas
@@ -68,22 +77,45 @@ function DetailPost() {
   return (
     <DetailPostWrapper>
       <UserInfoArea>
-        <UserImage src={post.userImage} alt={`${post.nickName}`} />
-        &nbsp;<span>{post.nickName}</span>
-      </UserInfoArea>
-      <StPostImgArea>{post.imgURL && <StPostImg src={post.imgURL} alt={`${post.title} 이미지`} />}</StPostImgArea>
-      <h3>{post.title}</h3>
-      <p>{post.body}</p>
-      <p>{post.tags}</p>
-      <div>
-        {userId === post.userId && <button onClick={openModal}>수정</button>}
-        {isOpen && (
-          <Modal>
-            <ModifyPost closeModal={closeModal} post={post} setPosts={setPosts}></ModifyPost>
-          </Modal>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <UserImage src={post.userImage} alt={`${post.nickName}`} />
+          &nbsp;<span style={{ fontWeight: '600' }}>{post.nickName}</span>
+        </div>
+        {userId === post.userId && (
+          <RiMoreFill style={{ fontSize: '25px', position: 'relative', cursor: 'pointer' }} onClick={toggleUserBtn} />
         )}
-        {userId === post.userId && <button onClick={deletePost}>삭제</button>}
-      </div>
+        {isOpenPostUserBtn && (
+          <StPostButtons>
+            {userId === post.userId && (
+              <StButton action={'수정'} onClick={openModal}>
+                수정
+              </StButton>
+            )}
+            {isOpen && (
+              <Modal>
+                <ModifyPost closeModal={closeModal} post={post} setPosts={setPosts} imgName={post.imgName}></ModifyPost>
+              </Modal>
+            )}
+            {userId === post.userId && (
+              <StButton action={'삭제'} onClick={deletePost}>
+                삭제
+              </StButton>
+            )}
+          </StPostButtons>
+        )}
+      </UserInfoArea>
+
+      {post.imgURL && (
+        <StPostImgArea>
+          {' '}
+          <StPostImg src={post.imgURL} alt={`${post.title} 이미지`} />
+        </StPostImgArea>
+      )}
+      <StTextArea>
+        <h3 style={{ fontWeight: '500' }}>{post.title}</h3>
+        <p style={{ height: '100%' }}>{post.body}</p>
+      </StTextArea>
+      <StTagArea>{post.tags.replaceAll(',', ' ')}</StTagArea>
     </DetailPostWrapper>
   );
 }
@@ -94,17 +126,43 @@ const DetailPostWrapper = styled.div`
   box-sizing: border-box;
   width: 50%;
   min-height: 500px;
-  border: 1px solid black;
+  border-right: 1px solid #d2d2d2;
   display: flex;
   flex-direction: column;
   padding: 0 20px 20px 20px;
-  @media screen and (max-width: 768px) {
+  /* @media screen and (max-width: 768px) {
     width: 100%;
-  }
+  } */
 `;
 
 const UserInfoArea = styled.div`
-  border: 1px solid black;
+  border-bottom: 1px solid #d2d2d2;
+  padding: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: relative;
+`;
+
+const StTextArea = styled.div`
+  padding: 0 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StPostButtons = styled.div`
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #777;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  top: 40px;
+  right: 10px;
 `;
 
 const UserImage = styled.img`
@@ -123,4 +181,9 @@ const StPostImgArea = styled.div`
 
 const StPostImg = styled.img`
   max-width: 200px;
+`;
+
+// [ ] 이 태그 부분 맨 밑으로 내리고 싶은데 안되요.... css.. 흡
+const StTagArea = styled.p`
+  padding: 10px;
 `;
