@@ -5,9 +5,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
 import { useSelector } from 'react-redux';
 import ModifyPost from './ModifyPost';
-import Modal from '../common/Modal';
 import { StButton } from './StyleButton';
 import { RiMoreFill } from 'react-icons/ri';
+import ModalForDetail from '../common/ModalForDetail';
 
 function DetailPost() {
   // controll state & sth
@@ -93,14 +93,14 @@ function DetailPost() {
                 </StButton>
               )}
               {isOpen && (
-                <Modal>
+                <ModalForDetail>
                   <ModifyPost
                     closeModal={closeModal}
                     post={post}
                     setPosts={setPosts}
                     imgName={post.imgName}
                   ></ModifyPost>
-                </Modal>
+                </ModalForDetail>
               )}
               {userId === post.userId && (
                 <StButton action={'삭제'} onClick={deletePost}>

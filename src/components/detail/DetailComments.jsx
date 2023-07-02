@@ -121,9 +121,11 @@ function DetailComments({ users }) {
       return;
     }
   };
+  console.log(filteredComments.length);
   return (
     <DetailCommentsWrapper>
       <CommentUl>
+        {filteredComments.length === 0 && <StGuideMessage>첫번째 댓글의 주인공이 되어주세요! ❤︎</StGuideMessage>}
         {/* [x] 아래 user의 프로필사진 가져올 때 user확인 resource 변경됨 firestore -> auth */}
         {filteredComments.map((comment) => {
           return (
@@ -273,4 +275,9 @@ const StInput = styled.input`
   border-right: 1px solid #d2d2d2;
   outline: none;
   padding: 20px;
+`;
+
+const StGuideMessage = styled.p`
+  margin: 220px auto 0;
+  text-align: center;
 `;
