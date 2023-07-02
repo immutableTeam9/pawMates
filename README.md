@@ -83,7 +83,7 @@
 
 ### 4) 상세게시물&댓글 작성
 
-<img width="700" alt="스크린샷 2023-07-03 오전 1 31 35" src="https://github.com/immutableTeam9/pawMates/assets/124346085/5d577952-2415-4248-9fc2-170e152ff615"><img width="700" alt="스크린샷 2023-07-03 오전 1 40 06" src="https://github.com/immutableTeam9/pawMates/assets/124346085/9d08c71c-1933-465f-830d-53f34357ef0a">
+<img width="700" alt="스크린샷 2023-07-03 오전 1 31 35" src="https://github.com/immutableTeam9/pawMates/assets/124346085/5d577952-2415-4248-9fc2-170e152ff615"><img width="1030" alt="스크린샷 2023-07-03 오전 2 26 13" src="https://github.com/immutableTeam9/pawMates/assets/124346085/0283a35e-d910-4aed-9a97-9f594120a304">
 
 ### 5) 게시물 수정
 
