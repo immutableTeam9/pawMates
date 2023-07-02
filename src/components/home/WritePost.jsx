@@ -190,7 +190,7 @@ const StHr = styled.hr`
   width: 95%;
   border: 0;
   height: 1px;
-  background-color: lightgray;
+  background-color: #d2d2d2;
   margin: 0;
 `;
 

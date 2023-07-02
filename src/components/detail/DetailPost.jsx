@@ -76,45 +76,54 @@ function DetailPost() {
 
   return (
     <DetailPostWrapper>
-      <UserInfoArea>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <UserImage src={post.userImage} alt={`${post.nickName}`} />
-          &nbsp;<span style={{ fontWeight: '600' }}>{post.nickName}</span>
-        </div>
-        {userId === post.userId && (
-          <RiMoreFill style={{ fontSize: '25px', position: 'relative', cursor: 'pointer' }} onClick={toggleUserBtn} />
-        )}
-        {isOpenPostUserBtn && (
-          <StPostButtons>
-            {userId === post.userId && (
-              <StButton action={'수정'} onClick={openModal}>
-                수정
-              </StButton>
-            )}
-            {isOpen && (
-              <Modal>
-                <ModifyPost closeModal={closeModal} post={post} setPosts={setPosts} imgName={post.imgName}></ModifyPost>
-              </Modal>
-            )}
-            {userId === post.userId && (
-              <StButton action={'삭제'} onClick={deletePost}>
-                삭제
-              </StButton>
-            )}
-          </StPostButtons>
-        )}
-      </UserInfoArea>
+      <StMostContent>
+        <UserInfoArea>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <UserImage src={post.userImage} alt={`${post.nickName}`} />
+            &nbsp;<span style={{ fontWeight: '600' }}>{post.nickName}</span>
+          </div>
+          {userId === post.userId && (
+            <RiMoreFill style={{ fontSize: '25px', position: 'relative', cursor: 'pointer' }} onClick={toggleUserBtn} />
+          )}
+          {isOpenPostUserBtn && (
+            <StPostButtons>
+              {userId === post.userId && (
+                <StButton action={'수정'} onClick={openModal}>
+                  수정
+                </StButton>
+              )}
+              {isOpen && (
+                <Modal>
+                  <ModifyPost
+                    closeModal={closeModal}
+                    post={post}
+                    setPosts={setPosts}
+                    imgName={post.imgName}
+                  ></ModifyPost>
+                </Modal>
+              )}
+              {userId === post.userId && (
+                <StButton action={'삭제'} onClick={deletePost}>
+                  삭제
+                </StButton>
+              )}
+            </StPostButtons>
+          )}
+        </UserInfoArea>
+        <StScrollFam>
+          {post.imgURL && (
+            <StPostImgArea>
+              {' '}
+              <StPostImg src={post.imgURL} alt={`${post.title} 이미지`} />
+            </StPostImgArea>
+          )}
+          <StTextArea>
+            <h3 style={{ fontWeight: '500' }}>{post.title}</h3>
+            <p style={{ height: '100%' }}>{post.body}</p>
+          </StTextArea>
+        </StScrollFam>
+      </StMostContent>
 
-      {post.imgURL && (
-        <StPostImgArea>
-          {' '}
-          <StPostImg src={post.imgURL} alt={`${post.title} 이미지`} />
-        </StPostImgArea>
-      )}
-      <StTextArea>
-        <h3 style={{ fontWeight: '500' }}>{post.title}</h3>
-        <p style={{ height: '100%' }}>{post.body}</p>
-      </StTextArea>
       <StTagArea>{post.tags.replaceAll(',', ' ')}</StTagArea>
     </DetailPostWrapper>
   );
@@ -125,14 +134,21 @@ export default DetailPost;
 const DetailPostWrapper = styled.div`
   box-sizing: border-box;
   width: 50%;
-  min-height: 500px;
+  height: 600px;
   border-right: 1px solid #d2d2d2;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 0 20px 20px 20px;
   /* @media screen and (max-width: 768px) {
     width: 100%;
   } */
+`;
+
+const StMostContent = styled.div`
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: flex-start;
 `;
 
 const UserInfoArea = styled.div`
@@ -186,4 +202,11 @@ const StPostImg = styled.img`
 // [ ] 이 태그 부분 맨 밑으로 내리고 싶은데 안되요.... css.. 흡
 const StTagArea = styled.p`
   padding: 10px;
+  margin: 0;
+  margin-top: 20px;
+  justify-self: flex-end;
+`;
+const StScrollFam = styled.div`
+  height: 475px;
+  overflow: auto;
 `;

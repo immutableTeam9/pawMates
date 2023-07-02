@@ -17,7 +17,7 @@ export default Detail;
 const DetailLayout = styled.div`
   box-sizing: border-box;
   width: 100%;
-  padding: 20px 40px;
+  padding: 40px;
 `;
 
 const StDetailWrapper = styled.div`
@@ -30,9 +30,4 @@ const StDetailWrapper = styled.div`
   border-radius: 8px;
   border: 1px solid #d2d2d2;
   background-color: #fff;
-
-  /* display: flex;
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-  } */
 `;

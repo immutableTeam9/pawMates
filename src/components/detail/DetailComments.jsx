@@ -189,7 +189,13 @@ const CommentUl = styled.ul`
   box-sizing: border-box;
   padding: 0 20px;
   margin: 10px 0;
-  height: 100%;
+  min-height: 468px;
+  max-height: 468px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const CommentLi = styled.li`

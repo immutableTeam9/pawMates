@@ -27,40 +27,11 @@ export const StButton = styled.button`
       case '저장':
         return '#38a169';
       case '닫기':
-        return '#777';
+        return '#939393';
       default:
-        return '#777';
+        return '#939393';
     }
   }};
-  /* ${({ action }) => {
-    switch (action) {
-      case '수정':
-        return css`
-          border: 3px solid '#ffb200';
-          background-color: #fff;
-        `;
-      case '삭제':
-        return css`
-          border: 3px solid '#e15757';
-          background-color: #fff;
-        `;
-      case '저장':
-        return css`
-          border: 3px solid '#38a169';
-          background-color: #fff;
-        `;
-      case '닫기':
-        return css`
-          border: 3px solid '#777';
-          background-color: #fff;
-        `;
-      default:
-        return css`
-          border: 3px solid '#777';
-          background-color: #fff;
-        `;
-    }
-  }} */
 
   border-radius: 8px;
   cursor: pointer;
@@ -76,9 +47,9 @@ export const StButton = styled.button`
         case '저장':
           return '#38a169';
         case '닫기':
-          return '#777';
+          return '#939393';
         default:
-          return '#777';
+          return '#939393';
       }
     }};
     color: #fff;
