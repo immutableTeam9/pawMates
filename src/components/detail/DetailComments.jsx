@@ -29,8 +29,16 @@ function DetailComments({ users }) {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState('');
   const [addComment, setAddComment] = useState(true);
-  const params = useParams();
+  useEffect(() => {
+    setVerifiedUser((prev) => false);
+    if (Boolean(Object.keys(userState).length)) {
+      return;
+    } else {
+      setVerifiedUser((prev) => true);
+    }
+  }, [userState]);
 
+  const params = useParams();
   useEffect(() => {
     const fetchData = async () => {
       const q = query(collection(db, 'comments'));
@@ -69,6 +77,11 @@ function DetailComments({ users }) {
     return `${year}.${month}.${day} ${hour}:${minute}`;
   };
   const onSubmit = async (e) => {
+    if (!Boolean(Object.keys(userState).length)) {
+      e.preventDefault();
+      alert('로그인 후  댓글 작성이 가능합니다.');
+      return;
+    }
     if (comment) {
       e.preventDefault();
       // [ ] 아래 commentWriter 관련 정보 셋중 하나 or 2개만 선택
