@@ -25,9 +25,7 @@ const Write = ({ posts, setPosts, fetchData }) => {
   };
   return (
     <div className="write-btn">
-      <StWriteBtn onClick={writeButtonHandler} isOpen={isOpen}>
-        글쓰기
-      </StWriteBtn>
+      <StWriteBtn onClick={writeButtonHandler}>글쓰기</StWriteBtn>
       {isOpen && (
         <>
           <ModalForDetail>

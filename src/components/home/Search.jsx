@@ -83,9 +83,9 @@ const Search = ({ setPosts }) => {
             <button>
               <FaSearch />
             </button>
-            <button onClick={redoButtonHandler}>
+            {/* <button type="button" onClick={redoButtonHandler}>
               <FaRedoAlt />
-            </button>
+            </button> */}
           </label>
         </form>
       </StSearch>
@@ -93,7 +93,7 @@ const Search = ({ setPosts }) => {
         {tags.map((tag) => {
           return (
             <div key={tag}>
-              <StTagButton btnColor={getButtonColor(tag)} onClick={(e) => tagButtonHandler(e, tag)}>
+              <StTagButton $btnColor={getButtonColor(tag)} onClick={(e) => tagButtonHandler(e, tag)}>
                 {tag}
               </StTagButton>
             </div>
@@ -156,6 +156,6 @@ const StTagButton = styled.button`
   transition: 0.3s ease-out;
 
   &:hover {
-    background-color: ${(props) => props.btnColor};
+    background-color: ${(props) => props.$btnColor};
   }
 `;

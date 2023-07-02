@@ -43,4 +43,20 @@ export const StPostContainer = styled.div`
     width: 100%;
     margin-bottom: 10px;
   }
+
+  & .noPost {
+    display: flex;
+    justify-content: center;
+    width: 1200px;
+    min-width: 992px;
+    color: #777;
+    font-size: 20px;
+
+    @media only screen and (max-width: 1200px) {
+      width: 992px;
+    }
+    @media only screen and (min-width: 1199px) {
+      width: 1200px;
+    }
+  }
 `;

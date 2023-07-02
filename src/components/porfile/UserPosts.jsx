@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { StPostContainer } from '../home/PostList';
+import { styled } from 'styled-components';
 
 const UserPosts = () => {
   const { id } = useParams();
@@ -30,15 +31,18 @@ const UserPosts = () => {
 
   return (
     <>
+      <StHtwo>작성한 게시물</StHtwo>
       <div>
-        <h2>작성한 게시물</h2>
-
         <StPostContainer>
-          {posts
-            .filter((post) => post.userId === id)
-            .map((post) => {
-              return <PostItem key={post.id} post={post}></PostItem>;
-            })}
+          {posts.filter((post) => post.userId === id).length > 0 ? (
+            posts
+              .filter((post) => post.userId === id)
+              .map((post) => {
+                return <PostItem key={post.id} post={post}></PostItem>;
+              })
+          ) : (
+            <div className="noPost">작성한 게시물이 없습니다!</div>
+          )}
         </StPostContainer>
       </div>
     </>
@@ -46,3 +50,10 @@ const UserPosts = () => {
 };
 
 export default UserPosts;
+
+const StHtwo = styled.h2`
+  min-width: 992px;
+  text-align: center;
+  margin-top: 50px;
+  font-weight: 700;
+`;

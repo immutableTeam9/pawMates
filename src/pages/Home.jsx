@@ -53,6 +53,7 @@ const StDiv = styled.div`
   display: grid;
   grid-template-columns: 1fr 750px 490px 1fr;
   grid-template-rows: 250px 70px 54px 1fr;
+  padding: 60px 0px 90px 0px;
 
   & h1 {
     grid-column: 2 / 3;
