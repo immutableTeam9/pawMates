@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# PawMates(포미츠)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+내일배움캠프 6기 9조 뉴스피드프로젝트 23.06.26 - 23.06.30 불멸의 9조
 
-## Available Scripts
+## 팀원
 
-In the project directory, you can run:
+| 팀원   | 스택         | 팀원구분 | 깃허브                                          | 블로그                                       |
+| ------ | ------------ | -------- | ----------------------------------------------- | -------------------------------------------- |
+| 이지은 | `프론트엔드` | `팀장`   | [JellyBear97](https://github.com/JellyBear97)   | [Jelly_Bear](https://jelly-lee.tistory.com/) |
+| 윤수민 | `프론트엔드` | 팀원     | [suminute](https://github.com/suminute)         | [](https://sum-til.tistory.com/)             |
+| 임지영 | `프론트엔드` | 팀원     | [jiapril11](https://github.com/jiapril11)       | [](https://recordonlyforme.tistory.com/)     |
+| 정봉호 | `프론트엔드` | 팀원     | [CodeNoob4089](https://github.com/CodeNoob4089) | [](https://codenoob2.tistory.com/)           |
 
-### `npm start`
+## 목차
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [1. 프로젝트 소개](#1-프로젝트-소개)
+- [2. 프로젝트 시연 영상](#2-프로젝트-시연-영상)
+- [3. 프로젝트 주소](#3-프로젝트-주소)
+- [4. 프로젝트 S.A](#4-프로젝트-sa)
+- [5. 기술스택](#5-기술스택)
+- [6. 사용한 라이브러리](#6-사용한-라이브러리)
+- [7. API Table](#7-api-table)
+- [8. 구현기능](#8-구현-기능)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 1. 프로젝트 소개
 
-### `npm test`
+## 2. 프로젝트 시연 영상
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+[유튜브 링크]()
 
-### `npm run build`
+## 3. 프로젝트 주소
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+[배포 일시 중지]
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 4. 프로젝트 S.A
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+[]()
 
-### `npm run eject`
+## 5. 기술스택
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"><img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white"><img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"><img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 7. API Table
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+| N.                   | Method | URL                   | Description             | Request                           | Response  |
+| -------------------- | ------ | --------------------- | ----------------------- | --------------------------------- | --------- | --------- |
+|                      | `GET`  | /api/home             | 메인(전체 피드 listing) |                                   | 전체 피드 |
+|                      | `GET`  | /api/mypage           | 마이페이지              | {userId : userId,                 |
+| 게시한 글}           | /token |
+|                      | `GET`  | /api/post/`<post_id>` | 피드 상세보기           | {게시물 정보, 게시물에 달린 댓글} | /token    |
+|                      | `GET`  | -                     | 검색(보류)              | query={검색어}                    | /token    | 검색 결과 |
+|                      | `POST` | /api/login            | 로그인                  | { userId : userId,                |
+| password : password} | /token |
+|                      | `POST` | /api/signup           | 회원가입                | { id : id,                        |
+| password : password} | /token |
+|                      | `POST` | /api/post             | 새 피드작성             | {userId : userId,                 |
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+img: img,
+title : title,
+body:body,
+hashTag:hashTag} | /token |
+| | `PUT` | /api/profile/`<user_id>` | 프로필 수정 | {userId : userId} | |
+| | `PUT` | /api/post/`<post_id>` | 피드 수정 | {userId : userId,
+postId : postId,
+img: img,
+title : title,
+body:body,
+hashTag:hashTag,} | |
+| | `PUT` | /api/post/`<post_id>` | 댓글 수정 | {userId : userId,
+📌 postId : postId (필요한가),
+commentId : commentId,
+comment : comment} | |
+| | `DELETE` | /api/post/`<post_id>` | 피드 삭제 | {userId : userId,
+postId : postId,
+commentId : commentId,
+comment : comment} | |
+| | `DELETE` | /api/post/`<comment_id>` | 댓글 삭제 |{userId : userId} | |
 
-## Learn More
+## 8. 구현 기능
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 1) 홈 화면 및 로그인 화면
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 2) 카테고리 화면 및 카테고리 등록 화면
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 3) 카테고리별 카드 리스트 화면 및 등록 화면
