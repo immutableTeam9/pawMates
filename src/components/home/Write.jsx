@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Modal from '../common/Modal';
 import WritePost from './WritePost';
 import { useSelector } from 'react-redux';
 import { keyframes, styled } from 'styled-components';
+import ModalForDetail from '../common/ModalForDetail';
 
 const Write = ({ posts, setPosts, fetchData }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,9 +30,9 @@ const Write = ({ posts, setPosts, fetchData }) => {
       </StWriteBtn>
       {isOpen && (
         <>
-          <Modal>
+          <ModalForDetail>
             <WritePost posts={posts} setPosts={setPosts} fetchData={fetchData} closeModal={closeModal}></WritePost>
-          </Modal>
+          </ModalForDetail>
         </>
       )}
     </div>
