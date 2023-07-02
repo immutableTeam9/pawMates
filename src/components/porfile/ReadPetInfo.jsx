@@ -40,7 +40,7 @@ export default function ReadPetInfo() {
           반려동물 정보{' '}
           <button
             className="btn-modify-profile"
-            title="내 정보 수정하기"
+            title="반려 정보 수정하기"
             onClick={() => dispatch(modifyPetInfoModalActive())}
           >
             <FaPencilAlt />
