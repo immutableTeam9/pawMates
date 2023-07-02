@@ -6,6 +6,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useSelector } from 'react-redux';
 import { styled } from 'styled-components';
 import { RiImage2Line } from 'react-icons/ri';
+import { StButton } from '../detail/StyleButton';
 
 const WritePost = ({ posts, setPosts, fetchData, closeModal }) => {
   const [title, setTitle] = useState('');
@@ -139,10 +140,10 @@ const WritePost = ({ posts, setPosts, fetchData, closeModal }) => {
           })}
         </StHashtags>
         <StFormButtons>
-          <button>저장</button>
-          <button type="button" onClick={closeModal}>
+          <StButton action={'저장'}>저장</StButton>
+          <StButton action={'닫기'} type="button" onClick={closeModal}>
             닫기
-          </button>
+          </StButton>
         </StFormButtons>
       </StForm>
     </>
@@ -201,6 +202,7 @@ const StHashtags = styled.div`
 `;
 
 const StFormButtons = styled.div`
+  margin-top: 20px;
   display: flex;
   gap: 10px;
 `;
@@ -245,4 +247,5 @@ const StImageWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-self: flex-start;
+  gap: 10px;
 `;

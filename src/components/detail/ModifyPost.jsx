@@ -4,7 +4,9 @@ import { db, storage } from '../../firebase';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from '@firebase/storage';
 import { useSelector } from 'react-redux';
 import { styled } from 'styled-components';
-import { RiImage2Line } from 'react-icons/ri';
+// import { RiImage2Line } from 'react-icons/ri';
+import { MdImageNotSupported } from 'react-icons/md';
+import { MdImageSearch } from 'react-icons/md';
 import { StButton } from './StyleButton';
 
 const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
@@ -160,18 +162,23 @@ const ModifyPost = ({ closeModal, post, setPosts, postId, imgName }) => {
       <hr />
       <StForm onSubmit={updatePost} onKeyDown={preventEnter}>
         <StImageWrapper>
-          <label htmlFor="input_file">
-            <RiImage2Line
-              style={{ fontSize: '20px', width: '30px', height: '30px', fontWeight: 700, cursor: 'pointer' }}
+          <ImageUpdating>
+            <label htmlFor="input_file">
+              <MdImageSearch
+                style={{ fontSize: '20px', width: '30px', height: '30px', fontWeight: 700, cursor: 'pointer' }}
+              />
+            </label>
+            <input type="file" id="input_file" onChange={handleFileSelect} style={{ display: 'none' }} />
+            <span style={{ lineHeight: '30px' }}>{changed ? selectedFile.name : imgName}</span>
+          </ImageUpdating>
+
+          <button type="button" onClick={deleteImg} style={{ backgroundColor: '#fff', border: 'none' }}>
+            <MdImageNotSupported
+              style={{ fontSize: '18spx', width: '28px', height: '28px', fontWeight: 700, cursor: 'pointer' }}
             />
-          </label>
-          <input type="file" id="input_file" onChange={handleFileSelect} style={{ display: 'none' }} />
-          <span style={{ lineHeight: '30px' }}>{changed ? selectedFile.name : imgName}</span>
+          </button>
         </StImageWrapper>
         <StHr />
-        <button type="button" onClick={deleteImg}>
-          이미지 삭제하기
-        </button>
         <StInput
           value={title}
           onChange={(e) => {
@@ -271,6 +278,7 @@ const StHashtags = styled.div`
 `;
 
 const StFormButtons = styled.div`
+  margin-top: 20px;
   display: flex;
   gap: 10px;
 `;
@@ -311,8 +319,17 @@ const StHashtagLabel = styled.label`
 `;
 
 const StImageWrapper = styled.div`
+  box-sizing: border-box;
+  width: 100%;
   padding: 0 15px;
   display: flex;
   flex-direction: row;
-  align-self: flex-start;
+  justify-content: space-between;
+`;
+
+const ImageUpdating = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
 `;
