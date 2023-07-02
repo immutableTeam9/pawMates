@@ -7,9 +7,9 @@
 | 팀원   | 스택         | 팀원구분 | 깃허브                                          | 블로그                                            |
 | ------ | ------------ | -------- | ----------------------------------------------- | ------------------------------------------------- |
 | 이지은 | `프론트엔드` | `팀장`   | [JellyBear97](https://github.com/JellyBear97)   | [Jelly_Bear](https://jelly-lee.tistory.com/)      |
-| 윤수민 | `프론트엔드` | 팀원     | [suminute](https://github.com/suminute)         | [숨숨의 블로그](https://sum-til.tistory.com/)     |
-| 임지영 | `프론트엔드` | 팀원     | [jiapril11](https://github.com/jiapril11)       | [recording](https://recordonlyforme.tistory.com/) |
-| 정봉호 | `프론트엔드` | 팀원     | [CodeNoob4089](https://github.com/CodeNoob4089) | [코린이 코딩일지](https://codenoob2.tistory.com/) |
+| 윤수민 | `프론트엔드` | `팀원`     | [suminute](https://github.com/suminute)         | [숨숨의 블로그](https://sum-til.tistory.com/)     |
+| 임지영 | `프론트엔드` | `팀원`     | [jiapril11](https://github.com/jiapril11)       | [recording](https://recordonlyforme.tistory.com/) |
+| 정봉호 | `프론트엔드` | `팀원`     | [CodeNoob4089](https://github.com/CodeNoob4089) | [코린이 코딩일지](https://codenoob2.tistory.com/) |
 
 ## 목차
 
