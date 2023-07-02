@@ -4,6 +4,7 @@ import { modifyProfile, onUserStateChange, storage } from '../../firebase';
 import { setUser } from '../../redux/modules/user';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { modifyProfileModalInactive } from '../../redux/modules/modalState';
+import { styled } from 'styled-components';
 
 export default function ModifyProfile() {
   const userState = useSelector((state) => state.user);
@@ -51,12 +52,11 @@ export default function ModifyProfile() {
     }
   };
   return (
-    <div>
-      <h2>프로필수정</h2>
-
+    <StModifyBox>
+      <h3>프로필수정</h3>
       <form onSubmit={handleModifyProfile}>
-        <div>
-          <label htmlFor="">닉네임</label>
+        <div className="input-box">
+          <label htmlFor="">닉네임: </label>
           <input
             type="text"
             value={newDispalyName}
@@ -64,27 +64,33 @@ export default function ModifyProfile() {
           />
         </div>
         <div>
-          <label htmlFor="">프로필 사진</label>
+          <StProfileImg imgUrl={imgSrc} />
           <input type="file" onChange={handleImgPreviw} />
-          <div
-            style={{
-              width: 130,
-              height: 130,
-              border: '1px solid black',
-              borderRadius: '50%',
-              overflow: 'hidden',
-              background: 'black'
-            }}
-          >
-            <img style={{ width: '100%' }} src={imgSrc} alt={`${displayName} 프로필 사진`} />
-          </div>
         </div>
 
-        <button type="button" onClick={() => dispatch(modifyProfileModalInactive())}>
-          취소
-        </button>
-        <button type="submit">수정</button>
+        <div className="button-box">
+          <button className="btn-cancel" type="button" onClick={() => dispatch(modifyProfileModalInactive())}>
+            취소
+          </button>
+          <button className="btn-modify" type="submit">
+            수정
+          </button>
+        </div>
       </form>
-    </div>
+    </StModifyBox>
   );
 }
+
+const StModifyBox = styled.div`
+  text-align: center;
+`;
+
+const StProfileImg = styled.div`
+  width: 150px;
+  height: 150px;
+  margin: 1rem auto;
+  border-radius: 50%;
+  overflow: hidden;
+  color: ${(props) => props.color};
+  background: ${(props) => `center / cover url(${props.imgUrl}) no-repeat`};
+`;

@@ -26,23 +26,27 @@ export default function SignIn() {
   };
   return (
     <div className="App">
-      <h2>로그인</h2>
+      <h3>로그인</h3>
       <form onSubmit={handleSignIn}>
         <div>
-          <div>
+          <div className="input-box">
             <label>이메일 : </label>
             <input type="email" value={email} name="email" onChange={onChange}></input>
           </div>
-          <div>
+          <div className="input-box">
             <label>비밀번호 : </label>
             <input type="password" value={pwd} name="pwd" onChange={onChange}></input>
           </div>
         </div>
 
-        <button type="submit">로그인</button>
-        <button type="button" onClick={() => dispatch(signinModalInactive())}>
-          닫기
-        </button>
+        <div className="button-box">
+          <button className="btn-cancel" type="button" onClick={() => dispatch(signinModalInactive())}>
+            닫기
+          </button>
+          <button className="btn-success" type="submit">
+            로그인
+          </button>
+        </div>
       </form>
     </div>
   );
