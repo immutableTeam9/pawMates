@@ -5,6 +5,10 @@ import shortid from 'shortid';
 import { styled } from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { StButton } from './StyleButton';
+import { RiHeart3Line } from 'react-icons/ri';
+// RiHeart3Line
+// RiHeart3Fill
 
 function DetailComments({ users }) {
   // identification
@@ -65,26 +69,31 @@ function DetailComments({ users }) {
     return `${year}.${month}.${day} ${hour}:${minute}`;
   };
   const onSubmit = async (e) => {
-    e.preventDefault();
-    // [ ] 아래 commentWriter 관련 정보 셋중 하나 or 2개만 선택
-    const newComment = {
-      commentId: shortid.generate(),
-      date: getToday(),
-      userId,
-      userEmail,
-      userNickName,
-      userImage,
-      postDBId,
-      commentBody: comment
-    };
-    const collectionRef = collection(db, 'comments');
-    await addDoc(collectionRef, newComment);
+    if (comment) {
+      e.preventDefault();
+      // [ ] 아래 commentWriter 관련 정보 셋중 하나 or 2개만 선택
+      const newComment = {
+        commentId: shortid.generate(),
+        date: getToday(),
+        userId,
+        userEmail,
+        userNickName,
+        userImage,
+        postDBId,
+        commentBody: comment
+      };
+      const collectionRef = collection(db, 'comments');
+      await addDoc(collectionRef, newComment);
 
-    setComments((prev) => {
-      return [...comments, newComment];
-    });
-    setComment('');
-    setAddComment(!addComment);
+      setComments((prev) => {
+        return [...comments, newComment];
+      });
+      setComment('');
+      setAddComment(!addComment);
+    } else {
+      e.preventDefault();
+      alert('댓글을 입력해주세요');
+    }
   };
 
   // delete comment
@@ -93,12 +102,16 @@ function DetailComments({ users }) {
     if (commentUserId !== userId) {
       return;
     }
-    const commentRef = doc(db, 'comments', id);
-    await deleteDoc(commentRef);
+    if (window.confirm('댓글을 삭제하시겠습니까?')) {
+      const commentRef = doc(db, 'comments', id);
+      await deleteDoc(commentRef);
 
-    setComments((prev) => {
-      return prev.filter((element) => element.id !== id);
-    });
+      setComments((prev) => {
+        return prev.filter((element) => element.id !== id);
+      });
+    } else {
+      return;
+    }
   };
 
   const verifyUser = () => {
@@ -110,7 +123,6 @@ function DetailComments({ users }) {
   };
   return (
     <DetailCommentsWrapper>
-      <div>comments list</div>
       <CommentUl>
         {/* [x] 아래 user의 프로필사진 가져올 때 user확인 resource 변경됨 firestore -> auth */}
         {filteredComments.map((comment) => {
@@ -119,21 +131,28 @@ function DetailComments({ users }) {
               <UserInfoArea>
                 <UserImage key={'image' + comment.id} src={comment.userImage} alt="userProfileimage" />
               </UserInfoArea>
-              <div>
-                <p>{comment.userNickName}</p>
-                <p>{comment.date}</p>
-                <p>{comment.commentBody}</p>
-                {userId === comment.userId && (
-                  <button onClick={() => onDeleteCommentClick(comment.id, comment.userId)}>삭제</button>
-                )}
-              </div>
+              <StCommentBody>
+                <StUserLine>
+                  <span style={{ fontWeight: '600' }}>{comment.userNickName}</span>
+                  {userId === comment.userId && (
+                    <StDeleteButton onClick={() => onDeleteCommentClick(comment.id, comment.userId)}>
+                      삭제
+                    </StDeleteButton>
+                  )}
+                </StUserLine>
+                <p style={{ margin: '0' }}>{comment.commentBody}</p>
+                <p style={{ fontSize: '12px' }}>{comment.date}</p>
+              </StCommentBody>
             </CommentLi>
           );
         })}
       </CommentUl>
-      <div>❤︎ 좋아요</div>
-      <form onSubmit={onSubmit}>
-        <input
+      <StLike>
+        <RiHeart3Line style={{ fontSize: '25px' }} />
+        <span>좋아요</span>
+      </StLike>
+      <StCommentForm onSubmit={onSubmit}>
+        <StInput
           type="text"
           name="comment"
           placeholder="댓글 달기..."
@@ -142,8 +161,13 @@ function DetailComments({ users }) {
           disabled={verifiedUser}
           onFocus={verifyUser}
         />
-        <button>게시</button>
-      </form>
+        <StButton
+          action={'저장'}
+          style={{ boxSizing: 'border-box', height: '100%', borderRadius: '0 0 8px 0 / 0 0 8px 0', border: 'none' }}
+        >
+          게시
+        </StButton>
+      </StCommentForm>
     </DetailCommentsWrapper>
   );
 }
@@ -151,30 +175,102 @@ function DetailComments({ users }) {
 export default DetailComments;
 
 const DetailCommentsWrapper = styled.div`
-  border: 1px solid black;
+  box-sizing: border-box;
+  width: 50%;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding-top: 20px;
+  /* @media screen and (max-width: 768px) {
+    width: 100%;
+  } */
 `;
 
 const CommentUl = styled.ul`
-  padding: 0;
+  box-sizing: border-box;
+  padding: 0 20px;
   margin: 10px 0;
+  min-height: 468px;
+  max-height: 468px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
-const CommentLi = styled.ul`
+const CommentLi = styled.li`
+  box-sizing: border-box;
+  width: 100%;
   padding: 0;
   margin: 0;
+  margin-bottom: 20px;
   list-style: none;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: flex;
 `;
 const UserInfoArea = styled.div`
-  border: 1px solid black;
+  width: 30px;
+  height: 35px;
 `;
 
 const UserImage = styled.img`
   width: 30px;
   height: 30px;
   border-radius: 100%;
+`;
+
+const StUserLine = styled.div`
+  height: 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const StCommentBody = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  padding-left: 8px;
+`;
+
+const StDeleteButton = styled.button`
+  width: 55px;
+  height: 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  &:hover {
+    color: #fff;
+    background-color: #e15757;
+  }
+`;
+
+const StLike = styled.div`
+  padding: 10px 20px;
+  border-top: 1px solid #d2d2d2;
+  border-bottom: 1px solid #d2d2d2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const StCommentForm = styled.form`
+  box-sizing: border-box;
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const StInput = styled.input`
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-right: 1px solid #d2d2d2;
+  outline: none;
+  padding: 20px;
 `;
