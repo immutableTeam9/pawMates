@@ -23,7 +23,6 @@ const WritePost = ({ posts, setPosts, fetchData, closeModal }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files?.[0]);
-    console.log('이거 맞지 않나?', event.target.files?.[0].name);
     setChanged(true);
   };
 
@@ -132,7 +131,7 @@ const WritePost = ({ posts, setPosts, fetchData, closeModal }) => {
                   value={tag}
                   onChange={(e) => checkedItemHandler(e.target.checked, e.target.value)}
                 />
-                <StHashtagLabel htmlFor={tag} checkedTags={checkedTags}>
+                <StHashtagLabel htmlFor={tag} $checkedTags={checkedTags}>
                   {tag}
                 </StHashtagLabel>
               </div>
@@ -214,14 +213,14 @@ const StHashtag = styled.input`
 const StHashtagLabel = styled.label`
   cursor: pointer;
   font-weight: 500;
-  color: ${({ htmlFor, checkedTags }) => {
-    return checkedTags.includes(htmlFor) ? '#fff' : '#777';
+  color: ${({ htmlFor, $checkedTags }) => {
+    return $checkedTags.includes(htmlFor) ? '#fff' : '#777';
   }};
-  background-color: ${({ htmlFor, checkedTags }) => {
-    if (!checkedTags.includes(htmlFor)) {
+  background-color: ${({ htmlFor, $checkedTags }) => {
+    if (!$checkedTags.includes(htmlFor)) {
       return '#ffffff';
     }
-    if (checkedTags.includes(htmlFor)) {
+    if ($checkedTags.includes(htmlFor)) {
       switch (htmlFor) {
         case '#강아지':
           return '#FFB6C1';

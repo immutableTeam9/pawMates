@@ -37,7 +37,11 @@ const PostItem = ({ post }) => {
         {post.tags ? (
           <div className="tags">
             {splitTags(post.tags).map((tag) => {
-              return <Stdiv bgColor={getDivColor(tag)}>{tag}</Stdiv>;
+              return (
+                <Stdiv $bgColor={getDivColor(tag)} key={tag}>
+                  {tag}
+                </Stdiv>
+              );
             })}
           </div>
         ) : null}
@@ -88,7 +92,7 @@ const Stdiv = styled.div`
   border-radius: 4px;
   padding: 3px;
   width: 60px;
-  background-color: ${(props) => props.bgColor};
+  background-color: ${(props) => props.$bgColor};
   margin: 10px 7px 0px 10px;
   text-align: center;
 `;
