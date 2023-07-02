@@ -53,7 +53,7 @@ function Header() {
           <h1>
             <Link to="/">
               <PiPawPrintFill />
-              PAW MATE
+              PAW MATES
             </Link>
           </h1>
           <nav>
