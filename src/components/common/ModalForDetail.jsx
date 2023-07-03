@@ -24,9 +24,9 @@ const StBackdrop = styled.div`
 const StModalContent = styled.div`
   position: relative;
   width: 50%;
-  height: 70vh;
+  height: 56vh;
   padding: 1rem;
   background-color: #fff;
   border-radius: 5px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 `;
