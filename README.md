@@ -52,20 +52,20 @@
 ## 7. API Table
 
 `GET` `POST` `PUT` `DELETE`
-| Number | Method | URL | Description | Request | Response |
-| ------ | ------ | ------------------------------------- | --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 1 | `GET` | /api/home | 글 목록 가져오기(메인페이지) | | 전체피드 |
-| 2 | `GET` | /api/mypage | 마이페이지 | {userId : userId, 게시한 글} | |
-| 3 | `GET` | /api/post/`<post_id>` | 특정 피드 가져오기 | {게시물 정보, 게시물에 달린 댓글} | |
-| 4 | `GET` | 보류 | 검색 | query={검색어} | 검색 결과 |
-| 5 | `POST` | /api/login | 로그인 | { userId : userId, password : password} | |
-| 6 | `POST` | /api/signup | 회원가입 | { id : id, password : password} | |
-| 7 | `POST` | /api/post | 새 피드 작성 | {userId : userId, img: img, title : title, body:body, hashTag:hashTag} | |
-| 8 | `PUT` | /api/profile/`<user_id>` | 프로필 수정 | {userId : userId, postId : postId, img: img, title : title, body:body, hashTag:hashTag,} | |
-| 9 | `PUT` | /api/post/`<post_id>` | 피드 수정 | {userId : userId, postId : postId, img: img, title : title, body:body, hashTag:hashTag,} | |
-| 10 | `PUT` | /api/post/`<post_id>` | 코멘트 수정 | {userId : userId, postId : postId (필요한가), commentId : commentId, comment : comment} | |
-| 11 | `DELETE` | /api/post/`<post_id>` | 피드 삭제 | {postId : postId} | |
-| 12 | `DELETE` | /api/post/<comment_id> | 코멘트 삭제 | {userId : userId, postId : postId, commentId : commentId, comment : comment} | |
+| Number | Method | Description | Request | Response |
+| ------ | ------  | --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 1 | `GET`  | 글 목록 가져오기(메인페이지) | | 전체피드 |
+| 2 | `GET`  | 마이페이지 | {userId : userId, 게시한 글} | |
+| 3 | `GET` | 특정 피드 가져오기 | {게시물 정보, 게시물에 달린 댓글} | |
+| 4 | `GET`  | 검색 | query={검색어} | 검색 결과 |
+| 5 | `POST`  | 로그인 | { userId : userId, password : password} | |
+| 6 | `POST`  | 회원가입 | { id : id, password : password} | |
+| 7 | `POST`  | 새 피드 작성 | {userId : userId, img: img, title : title, body:body, hashTag:hashTag} | |
+| 8 | `PUT` | 프로필 수정 | {userId : userId, postId : postId, img: img, title : title, body:body, hashTag:hashTag,} | |
+| 9 | `PUT`  | 피드 수정 | {userId : userId, postId : postId, img: img, title : title, body:body, hashTag:hashTag,} | |
+| 10 | `PUT` | 코멘트 수정 | {userId : userId, postId : postId (필요한가), commentId : commentId, comment : comment} | |
+| 11 | `DELETE`  | 피드 삭제 | {postId : postId} | |
+| 12 | `DELETE` | 코멘트 삭제 | {userId : userId, postId : postId, commentId : commentId, comment : comment} | |
 
 ## 8. 구현 기능
 
